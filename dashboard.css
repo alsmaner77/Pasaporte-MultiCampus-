@@ -1,0 +1,748 @@
+/* ======================================================== */
+/* 1. LAYOUT PRINCIPAL (SIDEBAR + VIEWPORT)                 */
+/* ======================================================== */
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg-app);
+    width: 100%;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 255px;
+    background: #ffffff;
+    border-right: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 20px;
+}
+
+.sidebar-logo-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(0, 118, 92, 0.08);
+    border: 1px solid rgba(0, 118, 92, 0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.sidebar-logo h3 {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--tec-green-dark);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.sidebar-logo span {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    display: block;
+    letter-spacing: 0.5px;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-item:hover {
+    background: var(--bg-surface-subtle);
+    color: var(--tec-green-primary);
+}
+
+.nav-item.active {
+    background: rgba(0, 118, 92, 0.09);
+    color: var(--tec-green-primary);
+    font-weight: 700;
+    border-right: 3px solid var(--tec-green-primary);
+}
+
+.nav-badge-pill {
+    background: var(--tec-gold);
+    color: #000;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 10px;
+}
+
+.sidebar-progress-widget {
+    background: #f8faf9;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+
+.sidebar-progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.sidebar-progress-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.sidebar-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--tec-green-light);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+/* Viewport Principal */
+.main-viewport {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.topbar {
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.topbar-breadcrumb {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+.topbar-breadcrumb b {
+    color: var(--text-primary);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.topbar-badge-edition {
+    background: var(--tec-gold-bg);
+    color: var(--tec-gold-dark);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.topbar-search {
+    background: #f9fafb;
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--tec-green-dark);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info-text b {
+    font-size: 12.5px;
+    color: var(--text-primary);
+    display: block;
+    line-height: 1.2;
+}
+.user-info-text span {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.content-body {
+    padding: 32px;
+    max-width: 1150px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Banner Superior */
+.hero-banner {
+    position: relative;
+    /* Degradado profundo: Verde pino oscuro a esmeralda Tecmilenio */
+    background: linear-gradient(120deg, #01241a 0%, #003d2e 40%, #005a44 100%);
+    color: #ffffff;
+    border-radius: var(--radius-lg);
+    padding: 30px 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px -5px rgba(0, 35, 25, 0.35);
+    overflow: hidden; /* Corta las ondas circulares para que no se salgan */
+}
+
+.hero-banner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    width: 340px;
+    height: 340px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300' fill='none'%3E%3Ccircle cx='200' cy='150' r='50' stroke='rgba(255,255,255,0.08)' stroke-width='1.5'/%3E%3Ccircle cx='200' cy='150' r='90' stroke='rgba(255,255,255,0.08)' stroke-width='1.5'/%3E%3Ccircle cx='200' cy='150' r='130' stroke='rgba(255,255,255,0.08)' stroke-width='1.5'/%3E%3Ccircle cx='200' cy='150' r='170' stroke='rgba(255,255,255,0.08)' stroke-width='1.5'/%3E%3Ccircle cx='200' cy='150' r='210' stroke='rgba(255,255,255,0.08)' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-text {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-label-top {
+    display: block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.hero-text h2 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0 0 4px 0;
+    color: #ffffff;
+}
+
+.hero-text p {
+    font-size: 13px;
+    color: #a7f3d0; /* Verde menta suave para la sede y semana */
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Estadísticas del lado derecho */
+.hero-stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 32px;
+}
+.hero-stat-box {
+    text-align: right;
+}
+
+.hero-stat-number {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--tec-gold) !important; /* Los 3 números en oro */
+    line-height: 1;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.hero-stat-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: capitalize; /* "Sello obtenido", "Progreso", "Ranking" */
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* ======================================================== */
+/* 2. TABLA DE MISIONES (8 SEMANAS)                         */
+/* ======================================================== */
+.section-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.section-title h3 { font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 0 0 4px; }
+.section-title span { font-size: 13px; color: var(--text-muted); }
+
+.filter-pills {
+    display: flex;
+    background: #E5E7EB;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    gap: 4px;
+}
+.filter-btn {
+    background: transparent; border: none; padding: 6px 14px; border-radius: 6px;
+    font-size: 12px; font-weight: 600; color: var(--text-secondary); cursor: pointer;
+}
+.filter-btn.active { background: #fff; color: var(--text-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+.missions-list {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.mission-row {
+    display: grid;
+    grid-template-columns: 48px 1fr 120px 140px 140px;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background 0.15s;
+}
+.mission-row:hover { background: #f9fafb; }
+.mission-icon { font-size: 20px; }
+.mission-details h4 { font-size: 14.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.mission-details p { font-size: 12.5px; color: var(--text-secondary); }
+.mission-week { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+
+.tag-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; text-align: center;
+}
+.tag-badge.horizontal { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+.tag-badge.transversal { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+
+.btn-stamp {
+    background: var(--tec-green-dark); color: #fff; border: none; padding: 8px 14px;
+    border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.btn-stamp:hover { background: var(--tec-green-primary); }
+.btn-stamp.completed { background: #F3F4F6; color: #059669; border: 1px solid #D1D5DB; cursor: default; }
+
+.locked-footer-msg {
+    padding: 16px 24px; background: #f9fafb; font-size: 12px;
+    color: var(--text-muted); display: flex; align-items: center; gap: 8px;
+}
+
+/* ======================================================== */
+/* 3. MI PASAPORTE Y CREDENCIAL (DISEÑO FÍSICO REALISTA)    */
+/* ======================================================== */
+
+/* Credencial del Estudiante */
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: #ffffff;
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+    margin-bottom: 30px;
+}
+
+.avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.avatar-wrapper img {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    border: 4px solid var(--tec-green-light);
+    object-fit: cover;
+    background: #f3f4f6;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.btn-avatar-edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--tec-gold);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.profile-details h3 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--tec-green-dark);
+}
+
+.badge-tag {
+    display: inline-flex !important;
+    align-items: center;
+    width: auto !important;
+    background: #f3f4f6;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin: 4px 8px 0 0;
+    border: 1px solid #e5e7eb;
+}
+
+.badge-tag.gold {
+    background: var(--tec-gold-bg) !important;
+    color: var(--tec-gold-dark) !important;
+    border-color: #fde68a !important;
+}
+
+/* Libreta Abierta del Pasaporte */
+.passport-book {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    background: #00382b; /* Cuero verde oficial */
+    padding: 14px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2), inset 0 0 15px rgba(0,0,0,0.5);
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+/* Páginas de Papel Texturizado */
+.passport-page {
+    flex: 1;
+    background-color: #fcfaf5;
+    background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
+    background-size: 14px 14px;
+    min-height: 280px;
+    border-radius: 6px;
+    padding: 24px;
+    position: relative;
+}
+
+.passport-page.left-page {
+    box-shadow: inset -15px 0 20px -15px rgba(0,0,0,0.25);
+}
+
+.passport-page.right-page {
+    box-shadow: inset 15px 0 20px -15px rgba(0,0,0,0.25);
+}
+
+.page-header {
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    color: #94a3b8;
+    letter-spacing: 1.5px;
+    border-bottom: 2px dashed #cbd5e1;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+.passport-grid, .stamps-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-state {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+    font-style: italic;
+    width: 100%;
+    padding: 40px 0;
+}
+
+/* Medallas de Oro */
+.badge {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 30% 30%, #e2e8f0 0%, #cbd5e1 100%);
+    border: 3px solid #94a3b8;
+    text-align: center;
+    filter: grayscale(100%);
+    opacity: 0.5;
+    padding: 4px;
+}
+
+.badge.unlocked {
+    filter: grayscale(0%);
+    opacity: 1;
+    background: radial-gradient(circle at 35% 35%, #fffbeb 0%, #fde68a 30%, #f59e0b 80%, #b45309 100%);
+    border: 3px solid #fbbf24;
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+    transform: scale(1.05);
+}
+
+.badge .icon { font-size: 22px; margin-bottom: 2px; }
+.badge p {
+    margin: 0; font-size: 7.5px; font-weight: 800;
+    color: #78350f; text-transform: uppercase; line-height: 1.1;
+}
+
+/* Sellos de Tinta Realistas */
+.sello-campus {
+    width: 90px;
+    height: 90px;
+    border: 3px double;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', monospace;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+    padding: 6px;
+    text-align: center;
+}
+
+.sello-campus.red { border-color: #b91c1c; color: #b91c1c; }
+.sello-campus.blue { border-color: #1d4ed8; color: #1d4ed8; }
+.sello-campus.green { border-color: #047857; color: #047857; }
+
+.sello-nombre {
+    font-size: 10.5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.sello-fecha {
+    font-size: 8.5px;
+    border-top: 1px solid;
+    margin-top: 5px;
+    padding-top: 2px;
+}
+
+/* Botón Cerrar Sesión */
+.btn-logout {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    padding: 10px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-logout:hover {
+    background: #fecaca;
+}
+
+/* ======================================================== */
+/* 4. CHATS Y MAPA                                          */
+/* ======================================================== */
+.chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.inbox-list { list-style: none; padding: 0; margin: 0; }
+.chat-room { height: 600px; background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); display: flex; flex-direction: column; overflow: hidden; }
+.chat-top-bar { display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: #f8fafc; border-bottom: 1px solid var(--border-subtle); }
+.avatar-small { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--tec-green-light); }
+.chat-info h3 { margin: 0; font-size: 15px; }
+.chat-info p { margin: 0; font-size: 12px; color: var(--text-muted); }
+.btn-video { margin-left: auto; background: var(--tec-green-light); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; }
+.btn-icon { background: none; border: none; font-size: 20px; cursor: pointer; padding: 6px; }
+.chat-messages { flex: 1; padding: 20px; overflow-y: auto; background: #f3f4f6; display: flex; flex-direction: column; gap: 10px; }
+.chat-input-area { padding: 15px; background: #fff; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; align-items: center; }
+.input-chat { flex: 1; padding: 12px 16px; border: 1px solid var(--border-subtle); border-radius: 24px; outline: none; background: #f9fafb; font-size: 14px; }
+.btn-send { background: var(--tec-green-primary); color: white; border: none; padding: 10px 22px; border-radius: 24px; font-weight: 700; cursor: pointer; }
+
+/* ======================================================== */
+/* MAPA NACIONAL VECTORIAL Y NODOS DE RADAR                 */
+/* ======================================================== */
+.map-card-wrapper {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+}
+
+.map-interactive-container {
+    position: relative;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    background: #fafdfb;
+    border-radius: var(--radius-md);
+    padding: 20px 10px;
+    border: 1px solid rgba(0, 118, 92, 0.08);
+}
+
+.map-vector-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0, 77, 60, 0.08));
+    transition: 0.3s;
+}
+
+/* Pines estilo Baliza / Nodo Satelital */
+.campus-pin {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ffffff;
+    border: 2px solid #005a46;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 10;
+}
+
+.campus-pin:hover {
+    transform: translate(-50%, -50%) scale(1.4);
+    background: var(--tec-gold);
+    border-color: #ffffff;
+    z-index: 20;
+}
+
+/* Pin Activo con Ondas de Pulso */
+.campus-pin.active {
+    background: #00f0a0;
+    border-color: #ffffff;
+    box-shadow: 0 0 10px #00f0a0;
+    animation: beaconPulse 2s infinite;
+}
+
+@keyframes beaconPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 240, 160, 0.8), 0 0 8px #00f0a0;
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(0, 240, 160, 0), 0 0 8px #00f0a0;
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 240, 160, 0), 0 0 8px #00f0a0;
+    }
+}
+
+/* Tooltip elegante al pasar el mouse */
+.pin-tooltip {
+    position: absolute;
+    bottom: 160%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--tec-green-dark);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 240, 160, 0.3);
+}
+
+.pin-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--tec-green-dark) transparent transparent transparent;
+}
+
+.campus-pin:hover .pin-tooltip {
+    opacity: 1;
+    visibility: visible;
+    bottom: 180%;
+}
+
+.map-footer-caption {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding-top: 15px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 700px) {
+    .passport-book { flex-direction: column; }
+    .passport-page.left-page { box-shadow: inset 0 -15px 20px -15px rgba(0,0,0,0.25); border-radius: 4px 4px 0 0; }
+    .passport-page.right-page { box-shadow: inset 0 15px 20px -15px rgba(0,0,0,0.25); border-radius: 0 0 4px 4px; }
+}

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasaporte Multicampus | Aula sin Fronteras</title>
+    
+    <link rel="stylesheet" href="./css/variables.css?v=1.0">
+    <link rel="stylesheet" href="./css/login.css?v=1.0">
+    <link rel="stylesheet" href="./css/dashboard.css?v=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+</head>
+<body>
+
+    <!-- MODAL DE WEBCAM -->
+    <div id="webcam-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(6px);">
+        <div style="background: #ffffff; padding: 24px; border-radius: var(--radius-lg); width: 90%; max-width: 480px; text-align: center;">
+            <h3 style="margin-bottom: 15px; color: var(--tec-green-dark);">Captura de Evidencia</h3>
+            <video id="webcam-video" autoplay playsinline style="width: 100%; border-radius: 10px; background: #000; margin-bottom: 15px;"></video>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="btn-close-webcam" class="btn-sso" style="width: auto;">✖ Cancelar</button>
+                <button id="btn-capture-webcam" class="btn-auth-primary" style="width: auto; margin-top: 0;">📸 Capturar Foto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="login-screen" class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-panel-left">
+    <!-- Malla de Rombos Isométricos en SVG idéntica a Figma -->
+                <svg class="hex-bg-pattern" viewBox="0 0 400 600" preserveAspectRatio="none">
+                    <defs>
+                        <pattern id="hex-grid" width="70" height="120" patternUnits="userSpaceOnUse">
+                <!-- Rombo/Hexágono alargado 1 -->
+                            <path d="M 35,5 L 65,25 L 65,75 L 35,95 L 5,75 L 5,25 Z" fill="none" stroke="rgba(255,255,255,0.11)" stroke-width="1.2"/>
+                <!-- Rombo/Hexágono alargado 2 (Staggered/Intercalado) -->
+                            <path d="M 0,65 L 30,85 L 30,135 L 0,155 L -30,135 L -30,85 Z" fill="none" stroke="rgba(255,255,255,0.11)" stroke-width="1.2"/>
+                            <path d="M 70,65 L 100,85 L 100,135 L 70,155 L 40,135 L 40,85 Z" fill="none" stroke="rgba(255,255,255,0.11)" stroke-width="1.2"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#hex-grid)" />
+                </svg>
+
+    <!-- Header superior: Logo + Badge EN LÍNEA -->
+                <div class="auth-top-block">
+                    <div class="nexus-brand">
+                        <div class="nexus-icon-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00F0A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="nexus-brand-text">PASAPORTE MULTICAMPUS</span>
+                    </div>
+
+                    <div class="maps-online-badge">
+                        <span class="pulse-dot"></span> MAPS 2026 · EN LÍNEA
+                    </div>
+                </div>
+
+    <!-- Contenido Central -->
+                <div class="auth-left-body">
+                    <h1 class="main-title">Aula sin<br><span class="highlight">Fronteras</span></h1>
+        
+                    <p class="main-desc">
+                        Ecosistema multicampus de Tecmilenio. Misiones, talentos y conexiones sin límites geográficos.
+                    </p>
+
+        <!-- Chips en 2 filas exactamente como Figma -->
+                    <div class="pills-container">
+                        <div class="pills-row">
+                            <span class="pill-chip">47 Campus</span>
+                            <span class="pill-chip">8 Semanas</span>
+                            <span class="pill-chip">2,400+ Est.</span>
+                        </div>
+                        <div class="pills-row">
+                            <span class="pill-chip">IA integrada</span>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Footer: Avatares y Frase -->
+                <div class="auth-left-footer">
+                    <div class="social-proof-row">
+                        <div class="avatar-group">
+                            <span class="av-circle av-yellow">MA</span>
+                            <span class="av-circle av-cyan">JR</span>
+                            <span class="av-circle av-purple">KL</span>
+                            <span class="av-circle av-pink">ST</span>
+                        </div>
+                        <span class="social-text">+2,396 estudiantes activos</span>
+                    </div>
+
+                    <p class="quote-text">"La plataforma que conectó mi campus con el mundo."</p>
+                </div>
+            </div>
+
+            <div class="auth-panel-right">
+                <div class="auth-header-right">
+                    <h2 id="auth-title">Accede a tu cuenta</h2>
+                    <p>Ingresa con tus credenciales de comunidad Tecmilenio</p>
+                </div>
+                <div class="auth-form-group">
+                    <label class="auth-label">Correo Institucional</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">✉️</span>
+                        <input type="email" id="email" class="auth-input" placeholder="nombre@tecmilenio.mx">
+                    </div>
+                </div>
+                <div class="auth-form-group">
+                    <label class="auth-label">Contraseña</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">🔒</span>
+                        <input type="password" id="password" class="auth-input" placeholder="••••••••••••">
+                    </div>
+                </div>
+                <div id="register-fields" style="display: none;">
+                    <div class="auth-form-group">
+                        <label class="auth-label">Campus Sede</label>
+                        <select id="campus-select" class="auth-input" style="padding-left: 14px;">
+                            <option value="" disabled selected>Selecciona tu Campus</option>
+                            <option value="Aguascalientes">Aguascalientes</option>
+                            <option value="Chihuahua">Chihuahua</option>
+                            <option value="Ciudad Juárez">Ciudad Juárez</option>
+                            <option value="Cuautitlán Izcalli">Cuautitlán Izcalli</option>
+                            <option value="Cuernavaca">Cuernavaca</option>
+                            <option value="Culiacán">Culiacán</option>
+                            <option value="Cumbres">Cumbres</option>
+                            <option value="Ferrería">Ferrería</option>
+                            <option value="Guadalajara">Guadalajara</option>
+                            <option value="Guadalupe">Guadalupe</option>
+                            <option value="Las Torres">Las Torres</option>
+                            <option value="Mazatlán">Mazatlán</option>
+                            <option value="Monterrey">Monterrey</option>
+                            <option value="Morelia">Morelia</option>
+                            <option value="Puebla">Puebla</option>
+                            <option value="Querétaro">Querétaro</option>
+                            <option value="Querétaro">Reynosa</option>
+                            <option value="San Luis Potosí">San Luis Potosí</option>
+                            <option value="San Nicolás">San Nicolás</option>
+                            <option value="Toluca">Toluca</option>
+                            <option value="Veracruz">Veracruz</option>
+                            <option value="Villahermosa">Villahermosa</option>
+                            <option value="Zapopan">Zapopan</option>
+                        </select>
+                    </div>
+                    <div class="auth-form-group">
+                        <label class="auth-label">Carrera Profesional</label>
+                        <select id="carrera-select" class="auth-input" style="padding-left: 14px;">
+                            <option value="" disabled selected>Selecciona tu Carrera</option>
+                            <option value="Ingeniería en Desarrollo de Software">Ingeniería en Desarrollo de Software</option>
+                            <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                            <option value="Licenciatura en Mercadotecnia">Licenciatura en Mercadotecnia</option>
+                            <option value="Licenciatura en Administración de Empresas">Licenciatura en Administración de Empresas</option>
+                            <option value="Licenciatura en Psicología">Licenciatura en Psicología</option>
+                            <option value="Licenciatura en Comercio y Negocios">Licenciatura en Comercio y Negocios</option>
+                        </select>
+                    </div>
+                    <div class="auth-form-group">
+                        <label class="auth-label">Certificado de Especialidad</label>
+                        <select id="certificado-select" class="auth-input" style="padding-left: 14px;">
+                            <option value="" disabled selected>Selecciona tu Certificado Actual</option>
+                            <option value="Ciencia de Datos">Ciencia de Datos y Analítica</option>
+                            <option value="Liderazgo Positivo">Liderazgo Positivo y Organizacional</option>
+                            <option value="Marketing Estratégico">Marketing Estratégico y Growth</option>
+                            <option value="Desarrollo de Software">Desarrollo de Software Cloud</option>
+                            <option value="Innovación de Negocios">Innovación y Modelos de Negocio</option>
+                        </select>
+                    </div>
+                </div>
+
+                <p id="auth-error" style="color: #dc2626; font-size: 13px; font-weight: 600; margin: 10px 0; display: none;"></p>
+                <button id="btn-login-action" class="btn-auth-primary"><span>Iniciar Sesión</span> ➔</button>
+                <button id="btn-register-action" class="btn-auth-primary" style="display: none; background: var(--tec-green-light);"><span>Crear mi Pasaporte</span> ➔</button>
+                <div class="auth-divider"><span>o</span></div>
+                <button type="button" class="btn-sso" onclick="alert('Conexión con Azure AD / Microsoft 365 Tecmilenio lista.')">
+                    <svg width="18" height="18" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+                    Continuar con Microsoft SSO
+                </button>
+                <div class="auth-footer">
+                    <span id="text-toggle">¿Nuevo en el ecosistema?</span>
+                    <a href="#" id="link-toggle">Regístrate aquí</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. DASHBOARD APP CONTENT -->
+    <div id="app-content" style="display: none;">
+        <div class="dashboard-layout">
+            
+            <!-- Barra Lateral (Sidebar) -->
+            <aside class="sidebar">
+                <div>
+                    <div class="sidebar-logo">
+                        <div class="sidebar-logo-icon">
+                            <img src="tecmilenio-logo.png" alt="Tecmilenio" style="width: 26px; height: 26px; object-fit: contain;">
+                        </div>
+                        <div>
+                            <h3>Pasaporte Multicampus</h3>
+                            <span>Aula sin Fronteras</span>
+                        </div>
+                    </div>
+                    <ul class="nav-menu">
+                        <li class="nav-item active" onclick="openTab(event, 'retos')">
+                            <div class="nav-item-left"><span>🎯</span> Ruta de 8 Semanas</div>
+                        </li>
+                        <li class="nav-item" onclick="openTab(event, 'conexion')">
+                            <div class="nav-item-left"><span>🤝</span> Radar de Talentos</div>
+                            <span class="nav-badge-pill">Nuevo</span>
+                        </li>
+                        <li class="nav-item" onclick="openTab(event, 'mapa')">
+                            <div class="nav-item-left"><span>🗺️</span> Ecosistema</div>
+                        </li>
+                        <li class="nav-item" onclick="openTab(event, 'mensajes')">
+                            <div class="nav-item-left"><span>💬</span> Hub Escuadrones</div>
+                        </li>
+                        <li class="nav-item" onclick="openTab(event, 'perfil')">
+                            <div class="nav-item-left"><span>🛂</span> Mi Pasaporte</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sidebar-progress-widget">
+                    <div class="sidebar-progress-header">
+                        <span>Avance Certificado</span>
+                        <span id="sidebar-progress-text">0%</span>
+                    </div>
+                    <div class="sidebar-progress-bar">
+                        <div class="sidebar-progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Viewport -->
+            <div class="main-viewport">
+                <header class="topbar">
+                    <div class="topbar-breadcrumb">
+                        Dashboard / <b id="current-view-title">Ruta de 8 Semanas</b>
+                    </div>
+                    <div class="topbar-right">
+                        <span class="topbar-badge-edition">EDICIÓN 2026</span>
+                        <div class="topbar-search"><span>🔍</span> Buscar misiones o campus...</div>
+                        <div class="topbar-user">
+                            <div class="user-avatar" id="topbar-avatar">ID</div>
+                            <div class="user-info-text">
+                                <b id="topbar-user-name">Estudiante</b>
+                                <span id="topbar-user-campus">Campus Sede</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content-body">
+                    <div class="hero-banner">
+                        <div class="hero-text">
+    <span class="hero-label-top">Bienvenido de vuelta,</span>
+    <h2 id="hero-greeting">Estudiante</h2>
+    <p id="hero-subtext">Semana 1 de 8 · Campus Monterrey</p>
+</div>
+<div class="hero-stats">
+    <div class="hero-stat-box">
+        <div class="hero-stat-number" id="kpi-sellos">0</div>
+        <div class="hero-stat-label">Sello obtenido</div>
+    </div>
+    <div class="hero-stat-box">
+        <div class="hero-stat-number" id="kpi-progreso">0%</div>
+        <div class="hero-stat-label">Progreso</div>
+    </div>
+    <div class="hero-stat-box">
+        <div class="hero-stat-number" id="kpi-ranking">#12</div>
+        <div class="hero-stat-label">Ranking</div>
+    </div>
+</div>
+                    </div>
+
+                    <!-- TAB 1: RETOS -->
+                    <section id="retos" class="tab-content active">
+                        <div class="section-toolbar">
+                            <div class="section-title">
+                                <h3>Misiones del Certificado</h3>
+                                <span>Ruta pedagógica y de pertenencia para las 8 semanas</span>
+                            </div>
+                            <div class="filter-pills">
+                                <button class="filter-btn active" onclick="filterMissions('all', event)">Todas</button>
+                                <button class="filter-btn" onclick="filterMissions('horizontal', event)">Horizontal</button>
+                                <button class="filter-btn" onclick="filterMissions('transversal', event)">Transversal</button>
+                            </div>
+                        </div>
+                        <div class="missions-list">
+                            <div class="mission-row" id="reto-1" data-type="horizontal">
+                                <span class="mission-icon">🌎</span>
+                                <div class="mission-details">
+                                    <h4>Onboarding Multicampus</h4>
+                                    <p>Busca a un compañero de tu mismo certificado en el 'Radar' y salúdalo.</p>
+                                </div>
+                                <span class="mission-week">Semana 1</span>
+                                <div><span class="tag-badge horizontal">Horizontal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(1, 'México conectado', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="mission-row" id="reto-2" data-type="horizontal">
+                                <span class="mission-icon">📹</span>
+                                <div class="mission-details">
+                                    <h4>Primer Enlace Síncrono</h4>
+                                    <p>Realiza una videollamada de 10 min por Jitsi con tu compañero intercampus.</p>
+                                </div>
+                                <span class="mission-week">Semana 2</span>
+                                <div><span class="tag-badge horizontal">Horizontal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(2, 'Conexión real', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="mission-row" id="reto-3" data-type="transversal">
+                                <span class="mission-icon">🍜</span>
+                                <div class="mission-details">
+                                    <h4>Intercambio Cultural (Validación IA)</h4>
+                                    <p>Envía en el chat una foto de un platillo típico; la IA la clasificará en automático.</p>
+                                </div>
+                                <span class="mission-week">Semana 3</span>
+                                <div><span class="tag-badge transversal">Transversal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(3, 'Explorador gastronómico', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="mission-row" id="reto-4" data-type="horizontal">
+                                <span class="mission-icon">🤝</span>
+                                <div class="mission-details">
+                                    <h4>Armar Escuadrón Colaborativo</h4>
+                                    <p>Crea un chat grupal con estudiantes de al menos 2 campus diferentes.</p>
+                                </div>
+                                <span class="mission-week">Semana 4</span>
+                                <div><span class="tag-badge horizontal">Horizontal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(4, 'Equipo Sin Fronteras', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="mission-row" id="reto-5" data-type="transversal">
+                                <span class="mission-icon">🧩</span>
+                                <div class="mission-details">
+                                    <h4>Feedback Interdisciplinario</h4>
+                                    <p>Comparte un avance con alguien de otro certificado y escucha su punto de vista.</p>
+                                </div>
+                                <span class="mission-week">Semana 5</span>
+                                <div><span class="tag-badge transversal">Transversal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(5, 'Sin fronteras', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="mission-row" id="reto-6" data-type="horizontal">
+                                <span class="mission-icon">📚</span>
+                                <div class="mission-details">
+                                    <h4>Intercambio de Apuntes y Recursos</h4>
+                                    <p>Sube o comparte un archivo útil en tu escuadrón para preparar la entrega.</p>
+                                </div>
+                                <span class="mission-week">Semana 6</span>
+                                <div><span class="tag-badge horizontal">Horizontal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(6, 'Colaborador', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="mission-row" id="reto-7" data-type="transversal">
+                                <span class="mission-icon">💡</span>
+                                <div class="mission-details">
+                                    <h4>Propuesta Cruzada Integrada</h4>
+                                    <p>Genera una propuesta conjunta que fusione conocimientos de ambos certificados.</p>
+                                </div>
+                                <span class="mission-week">Semana 7</span>
+                                <div><span class="tag-badge transversal">Transversal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(7, 'Estratega', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="mission-row" id="reto-8" data-type="horizontal">
+                                <span class="mission-icon">🏆</span>
+                                <div class="mission-details">
+                                    <h4>Cierre y Graduación Multicampus</h4>
+                                    <p>Revisa tu pasaporte de sellos y deja una nota de agradecimiento a tus colegas.</p>
+                                </div>
+                                <span class="mission-week">Semana 8</span>
+                                <div><span class="tag-badge horizontal">Horizontal</span></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(8, 'Explorador Nacional', 12.5)">Registrar Sello</button></div>
+                            </div>
+                            <div class="locked-footer-msg"><span>🔒</span> Ruta diseñada para las 8 semanas del certificado.</div>
+                        </div>
+                    </section>
+
+                    <!-- TAB 2: RADAR -->
+                    <section id="conexion" class="tab-content" style="display: none;">
+                        <div class="section-title" style="margin-bottom: 20px;">
+                            <h3>Radar de Talentos</h3>
+                            <span>Emparejamiento inteligente con alumnos de otras sedes</span>
+                        </div>
+                        <div style="background: #ffffff; padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center; max-width: 650px; margin: 0 auto;">
+                            <div style="font-size: 48px; margin-bottom: 15px;">📡</div>
+                            <h3 style="color: var(--tec-green-dark); margin-bottom: 10px;">Sintonizador Multicampus</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 25px; font-size: 14px;">El sistema buscará a un estudiante en otro campus con el que aún no hayas colaborado para abrir una sala segura.</p>
+                            <button id="btn-find-partner" class="btn-auth-primary" style="width: auto; margin: 0 auto; padding: 14px 28px;"><span>🔍 Buscar Nueva Conexión</span></button>
+                            <p id="search-status" style="display: none; color: var(--tec-green-primary); margin-top: 20px; font-weight: 700;"></p>
+                        </div>
+                    </section>
+
+                    <!-- TAB 3: MAPA -->
+                    <!-- TAB 3: ECOSISTEMA (MAPA NACIONAL VECTORIAL) -->
+<section id="mapa" class="tab-content" style="display: none;">
+    <div class="section-toolbar">
+        <div class="section-title">
+            <h3>Red Nacional Conectada</h3>
+            <span>Ecosistema de cobertura e intercambio estudiantil entre sedes</span>
+        </div>
+        <span class="tag-badge horizontal" style="font-size: 12px; padding: 6px 14px;">
+            ● 31 Campus en Red Activa
+        </span>
+    </div>
+
+    <div class="map-card-wrapper">
+        <div class="map-interactive-container">
+            <!-- Tu nuevo mapa SVG -->
+            <img src="Map.svg" alt="Mapa Nacional Tecmilenio" class="map-vector-img">
+
+            <!-- PINES CALIBRADOS AL MAPA VECTORIAL -->
+            <!-- Zona Noroeste -->
+            <!-- PINES 100% CALIBRADOS A LA GEOGRAFÍA DE MAP.SVG -->
+
+            <!-- Zona Noroeste (Baja California y Sonora) -->
+            <div class="campus-pin" data-campus="Tijuana" style="top: 14.5%; left: 11.5%;">
+                <span class="pin-tooltip">Tijuana: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Hermosillo" style="top: 29.5%; left: 27.5%;">
+                <span class="pin-tooltip">Hermosillo: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Ciudad Obregón" style="top: 37.5%; left: 31.5%;">
+                <span class="pin-tooltip">Ciudad Obregón: <span class="count">0</span></span>
+            </div>
+
+            <!-- Zona Sinaloa -->
+            <div class="campus-pin" data-campus="Los Mochis" style="top: 43%; left: 34.5%;">
+                <span class="pin-tooltip">Los Mochis: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Culiacán" style="top: 50.5%; left: 38%;">
+                <span class="pin-tooltip">Culiacán: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Mazatlán" style="top: 57.5%; left: 41%;">
+                <span class="pin-tooltip">Mazatlán: <span class="count">0</span></span>
+            </div>
+
+            <!-- Zona Norte (Chihuahua y Durango) -->
+            <div class="campus-pin" data-campus="Ciudad Juárez" style="top: 20.5%; left: 41.5%;">
+                <span class="pin-tooltip">Ciudad Juárez: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Chihuahua" style="top: 33.5%; left: 41.5%;">
+                <span class="pin-tooltip">Chihuahua: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Durango" style="top: 54.5%; left: 46%;">
+                <span class="pin-tooltip">Durango: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Laguna" style="top: 48%; left: 50%;">
+                <span class="pin-tooltip">Laguna (Torreón): <span class="count">0</span></span>
+            </div>
+
+            <!-- Zona Noreste (Tamaulipas) -->
+            <div class="campus-pin" data-campus="Nuevo Laredo" style="top: 35.5%; left: 59.8%;">
+                <span class="pin-tooltip">Nuevo Laredo: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Reynosa" style="top: 41.5%; left: 62.5%;">
+                <span class="pin-tooltip">Reynosa: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Tampico" style="top: 61.5%; left: 62.8%;">
+                <span class="pin-tooltip">Tampico: <span class="count">0</span></span>
+            </div>
+
+            <!-- Cluster Monterrey y Área Metropolitana (Nuevo León) -->
+            <div class="campus-pin" data-campus="Monterrey" style="top: 46.5%; left: 58.8%;">
+                <span class="pin-tooltip">Monterrey Centro: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="San Nicolás" style="top: 45.5%; left: 59%;">
+                <span class="pin-tooltip">San Nicolás: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Cumbres" style="top: 46%; left: 57.8%;">
+                <span class="pin-tooltip">Cumbres: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Guadalupe" style="top: 47.5%; left: 59.8%;">
+                <span class="pin-tooltip">Guadalupe: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Las Torres" style="top: 48.2%; left: 58.5%;">
+                <span class="pin-tooltip">Las Torres: <span class="count">0</span></span>
+            </div>
+
+            <!-- Zona Centro-Bajío y Occidente -->
+            <div class="campus-pin" data-campus="Zacatecas" style="top: 58.5%; left: 51.5%;">
+                <span class="pin-tooltip">Zacatecas: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Aguascalientes" style="top: 63%; left: 52.2%;">
+                <span class="pin-tooltip">Aguascalientes: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="San Luis Potosí" style="top: 62%; left: 56.8%;">
+                <span class="pin-tooltip">San Luis Potosí: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Zapopan" style="top: 68%; left: 47.8%;">
+                <span class="pin-tooltip">Zapopan: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Guadalajara" style="top: 69.5%; left: 48.8%;">
+                <span class="pin-tooltip">Guadalajara: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Morelia" style="top: 72%; left: 55%;">
+                <span class="pin-tooltip">Morelia: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Querétaro" style="top: 68.5%; left: 57.8%;">
+                <span class="pin-tooltip">Querétaro: <span class="count">0</span></span>
+            </div>
+
+            <!-- Zona Valle de México y Centro -->
+            <div class="campus-pin" data-campus="Toluca" style="top: 74%; left: 57.5%;">
+                <span class="pin-tooltip">Toluca: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Cuautitlán Izcalli" style="top: 71.5%; left: 59.2%;">
+                <span class="pin-tooltip">Cuautitlán Izcalli: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Ferrería" style="top: 72.5%; left: 59.5%;">
+                <span class="pin-tooltip">Ferrería (CDMX): <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Cuernavaca" style="top: 75.5%; left: 59.8%;">
+                <span class="pin-tooltip">Cuernavaca: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Puebla" style="top: 74%; left: 62%;">
+                <span class="pin-tooltip">Puebla: <span class="count">0</span></span>
+            </div>
+
+            <!-- Zona Golfo y Sureste -->
+            <div class="campus-pin" data-campus="Veracruz" style="top: 72.5%; left: 66.8%;">
+                <span class="pin-tooltip">Veracruz: <span class="count">0</span></span>
+            </div>
+            <div class="campus-pin" data-campus="Villahermosa" style="top: 78%; left: 75.8%;">
+                <span class="pin-tooltip">Villahermosa: <span class="count">0</span></span>
+            </div>
+        </div>
+
+        <div class="map-footer-caption">
+            <span>💡 <b>Tip de navegación:</b> Los campus conectados en tu red emiten un pulso verde. Pasa el cursor sobre un pin para ver el número de conexiones activas.</span>
+        </div>
+    </div>
+</section>
+
+                    <!-- TAB 4: MENSAJES -->
+                    <section id="mensajes" class="tab-content" style="display: none;">
+                        <div class="chat-header">
+                            <div class="section-title">
+                                <h3>Chats y Escuadrones</h3>
+                                <span>Salas activas y videollamadas con otros campus</span>
+                            </div>
+                            <button id="btn-open-group-modal" class="btn-auth-primary" style="width: auto; padding: 10px 18px; margin-top:0;">➕ Crear Escuadrón</button>
+                        </div>
+                        <div id="group-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2500; align-items: center; justify-content: center;">
+                            <div style="background: #ffffff; padding: 25px; border-radius: var(--radius-lg); width: 90%; max-width: 420px;">
+                                <h3 style="margin-bottom: 12px; color: var(--tec-green-dark);">Armar Escuadrón Intercampus</h3>
+                                <input type="text" id="group-name" class="auth-input" placeholder="Nombre (ej. Escuadrón MAPS)" style="margin-bottom: 15px;">
+                                <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">Selecciona conexiones a invitar:</p>
+                                <div id="group-connections-list" style="max-height: 180px; overflow-y: auto; border: 1px solid var(--border-subtle); padding: 10px; border-radius: 8px; margin-bottom: 15px;"></div>
+                                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                                    <button id="btn-cancel-group" class="btn-sso" style="width: auto;">Cancelar</button>
+                                    <button id="btn-confirm-group" class="btn-auth-primary" style="width: auto; margin-top:0;">Crear Grupo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="inbox-view">
+                            <ul id="chats-list" class="inbox-list">
+                                <li id="empty-chats-msg" class="empty-state">No tienes chats activos aún. ¡Ve al Radar para conectar!</li>
+                            </ul>
+                        </div>
+                        <div id="chat-room-view" class="chat-room" style="display: none;">
+                            <div class="chat-top-bar">
+                                <button id="btn-back-to-inbox" class="btn-icon">⬅</button>
+                                <img id="chat-partner-pic" src="" class="avatar-small">
+                                <div class="chat-info">
+                                    <h3 id="chat-partner-email">Estudiante</h3>
+                                    <p id="chat-partner-campus">Campus</p>
+                                </div>
+                                <button id="btn-video-call" class="btn-video">📹 Videollamada Jitsi</button>
+                            </div>
+                            <div id="chat-messages" class="chat-messages"></div>
+                            <div class="chat-input-area">
+                                <input type="file" id="chat-img-input" accept="image/*" style="display: none;">
+                                <input type="file" id="chat-camera-input" accept="image/*" capture="environment" style="display: none;">
+                                <button id="btn-attach-img" class="btn-icon">🖼️</button>
+                                <button id="btn-take-photo" class="btn-icon">📷</button>
+                                <input type="text" id="chat-input" class="input-chat" placeholder="Escribe tu mensaje...">
+                                <button id="btn-send-message" class="btn-send">Enviar</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- TAB 5: PERFIL -->
+                    <section id="perfil" class="tab-content" style="display: none;">
+                        <div class="profile-card">
+                            <div class="avatar-wrapper">
+                                <img id="profile-pic" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect width='100%' height='100%' fill='%23eee'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='12'>Sin Foto</text></svg>">
+                                <button onclick="document.getElementById('upload-pic').click()" class="btn-avatar-edit">✏️</button>
+                                <input type="file" id="upload-pic" accept="image/*" style="display: none;">
+                            </div>
+                            <div class="profile-details">
+                                <h3 id="profile-email">Cargando usuario...</h3>
+                                <p id="profile-campus" class="badge-tag">Campus: Cargando...</p>
+                                <p id="profile-certificado" class="badge-tag" style="background: var(--tec-gold-bg); color: var(--tec-gold-dark);">Certificado</p>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px; margin-bottom: 12px;" class="section-title">
+                            <h3>Libreta Oficial de Pasaporte</h3>
+                            <span>Tus evidencias de colaboración nacional</span>
+                        </div>
+                        <div class="passport-book">
+                            <div class="passport-page left-page">
+                                <div class="page-header">INSIGNIAS OBTENIDAS</div>
+                                <div id="passport-badges-grid" class="passport-grid">
+                                    <p id="no-badges-msg" class="empty-state">Insignias pendientes.</p>
+                                </div>
+                            </div>
+                            <div class="passport-page right-page">
+                                <div class="page-header">SELLOS INTERCAMPUS</div>
+                                <div id="passport-stamps-grid" class="stamps-grid">
+                                    <p id="no-stamps-msg" class="empty-state">Aún no hay sellos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button id="btn-logout" class="btn-logout">Cerrar Sesión Segura 🔒</button>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DICCIONARIO OCULTO DE INSIGNIAS -->
+    <div style="display: none;">
+        <div class="badge locked" id="badge-México conectado"><div class="icon">🌎</div><p>México Conectado</p></div>
+        <div class="badge locked" id="badge-Conexión real"><div class="icon">🎤</div><p>Conexión Real</p></div>
+        <div class="badge locked" id="badge-Explorador gastronómico"><div class="icon">🍜</div><p>Gastronómico</p></div>
+        <div class="badge locked" id="badge-Equipo Sin Fronteras"><div class="icon">🤝</div><p>Escuadrón</p></div>
+        <div class="badge locked" id="badge-Sin fronteras"><div class="icon">🧩</div><p>Sin Fronteras</p></div>
+        <div class="badge locked" id="badge-Colaborador"><div class="icon">📚</div><p>Colaborador</p></div>
+        <div class="badge locked" id="badge-Estratega"><div class="icon">💡</div><p>Estratega</p></div>
+        <div class="badge locked" id="badge-Explorador Nacional"><div class="icon">🏆</div><p>Explorador Nacional</p></div>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

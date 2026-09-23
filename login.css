@@ -1,0 +1,570 @@
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: #f2f5f3;
+    /* Cuadrícula técnica idéntica a Figma (Modo Claro) */
+    background-image: 
+        linear-gradient(to right, rgba(0, 60, 45, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 60, 45, 0.05) 1px, transparent 1px);
+    background-size: 34px 34px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Luz Esmeralda Superior (Se filtra detrás de la tarjeta) */
+.auth-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 22%;
+    width: 460px;
+    height: 460px;
+    background: radial-gradient(circle, rgba(0, 240, 160, 0.30) 0%, rgba(0, 176, 116, 0.15) 45%, transparent 70%);
+    filter: blur(95px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Luz Ámbar/Menta Inferior (Para resaltar el cristal del formulario) */
+.auth-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 12%;
+    right: 22%;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(255, 184, 0, 0.20) 0%, rgba(0, 240, 160, 0.12) 50%, transparent 70%);
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ======================================================== */
+/* TARJETA GLASSMORPHISM (CRISTAL FLOTANTE REFRACTIVO)      */
+/* ======================================================== */
+.auth-card {
+    display: flex;
+    width: 100%;
+    max-width: 1020px;
+    min-height: 600px;
+    /* Cristal esmerilado semi-translúcido */
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(30px) saturate(190%);
+    -webkit-backdrop-filter: blur(30px) saturate(190%);
+    /* Bisel brillante de cristal */
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius-xl);
+    /* Sombras multicapa: profundidad exterior + brillo perimetral */
+    box-shadow: 
+        0 30px 65px -12px rgba(0, 48, 37, 0.18),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+        0 10px 25px -5px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+.auth-panel-right {
+    flex: 1;
+    /* Permite ver sutilmente la cuadrícula y las luces de fondo */
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 13px 14px 13px 40px;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(8px);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #00B074;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 176, 116, 0.18), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.btn-auth-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00765C 0%, #009975 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+    /* Resplandor suave del botón */
+    box-shadow: 0 10px 24px -4px rgba(0, 153, 117, 0.45);
+    margin-top: 10px;
+}
+
+.btn-auth-primary:hover {
+    background: linear-gradient(135deg, #00604A 0%, #00765C 100%);
+    box-shadow: 0 14px 28px -4px rgba(0, 153, 117, 0.65);
+    transform: translateY(-1px);
+}
+
+/* Panel Izquierdo: Verde con Malla de Rombitos Tech */
+/* ======================================================== */
+/* PANEL IZQUIERDO (CALCA EXACTA DE FIGMA EN VERDE CLARO)   */
+/* ======================================================== */
+.auth-panel-left {
+    flex: 1.15;
+    background: linear-gradient(160deg, #00382B 0%, #004D3C 45%, #005E49 100%);
+    color: #ffffff;
+    padding: 44px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* El patrón de SVG con máscara de desvanecimiento suave */
+.hex-bg-pattern {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.2) 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.2) 80%, transparent 100%);
+}
+
+/* 1. Header: Logo y Badge */
+.auth-top-block {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nexus-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nexus-icon-box {
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 240, 160, 0.12);
+    border: 1px solid rgba(0, 240, 160, 0.25);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nexus-brand-text {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+}
+
+.maps-online-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 240, 160, 0.08);
+    border: 1px solid rgba(0, 240, 160, 0.22);
+    color: #00F0A0;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #00F0A0;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00F0A0;
+}
+
+/* 2. Cuerpo Central */
+.auth-left-body {
+    position: relative;
+    z-index: 2;
+    margin: 28px 0;
+}
+
+.main-title {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.8px;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+}
+
+.main-title .highlight {
+    color: #00F0A0; /* Verde menta brillante de tu Figma */
+}
+
+.main-desc {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.55;
+    margin: 0 0 24px 0;
+    max-width: 350px;
+    font-weight: 400;
+}
+
+/* 3. Pastillas (Chips) */
+.pills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pills-row {
+    display: flex;
+    gap: 8px;
+}
+
+.pill-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 4. Footer con Avatares y Cita */
+.auth-left-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.social-proof-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-group {
+    display: flex;
+}
+
+.av-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #00382B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-left: -6px;
+}
+.av-circle:first-child { margin-left: 0; }
+
+.av-yellow { background: #EAB308; }
+.av-cyan   { background: #06B6D4; }
+.av-purple { background: #8B5CF6; }
+.av-pink   { background: #EC4899; }
+
+.social-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.quote-text {
+    font-size: 12px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+}
+
+.auth-badge-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--tec-gold);
+    width: fit-content;
+    position: relative;
+    z-index: 2;
+}
+
+.auth-badge-top::before {
+    content: '●';
+    color: var(--tec-green-light);
+}
+
+.auth-left-content {
+    position: relative;
+    z-index: 2;
+    margin: 30px 0;
+}
+
+.auth-left-content h1 {
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+}
+
+.auth-left-content h1 span {
+    color: var(--tec-gold);
+}
+
+.auth-left-content p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 380px;
+}
+
+/* Pills / Chips de Datos Glassmorphism */
+.auth-pills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.auth-pill {
+    background: var(--glass-pill);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-pill-border);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+/* Avatares y Frase */
+.auth-social-proof {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.avatar-stack {
+    display: flex;
+}
+
+.avatar-pill {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--tec-green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    margin-left: -8px;
+}
+.avatar-pill:first-child { margin-left: 0; }
+
+.auth-social-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+/* Panel Derecho: Formulario Limpio y Microsoft SSO */
+.auth-panel-right {
+    flex: 1;
+    background: var(--bg-surface);
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-header-right h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.auth-header-right p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.auth-form-group {
+    margin-bottom: 16px;
+}
+
+.auth-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.auth-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-input-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 15px;
+    color: var(--text-muted);
+}
+
+.auth-input {
+    width: 100%;
+    padding: 13px 14px 13px 40px;
+    font-size: 14px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface-subtle);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(0, 176, 116, 0.15);
+}
+
+/* Botón Iniciar Sesión */
+.btn-auth-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--tec-green-primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-glow);
+    margin-top: 10px;
+}
+
+.btn-auth-primary:hover {
+    background: var(--tec-green-dark);
+    transform: translateY(-1px);
+}
+
+/* Divisor "O" */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+.auth-divider::before, .auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-subtle);
+}
+.auth-divider span {
+    padding: 0 12px;
+}
+
+/* Botón Microsoft SSO */
+.btn-sso {
+    width: 100%;
+    padding: 12px;
+    background: #FFFFFF;
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.btn-sso:hover {
+    background: var(--bg-surface-subtle);
+    border-color: #D1D5DB;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.auth-footer a {
+    color: var(--tec-green-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 820px) {
+    .auth-card { flex-direction: column; }
+    .auth-panel-left { padding: 32px; }
+    .auth-panel-right { padding: 32px; }
+}
