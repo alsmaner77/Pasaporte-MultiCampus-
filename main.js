@@ -182,9 +182,15 @@ onAuthStateChanged(auth, async (user) => {
 // 4. LISTENERS DE CONTROLES DE LA APP
 // ==========================================
 
-// Radar de emparejamiento
+// Radar de emparejamiento con filtros
 document.getElementById('btn-find-partner').addEventListener('click', () => {
-    buscarNuevaConexion(miCampusActual);
+    const filtros = {
+        campus: document.getElementById('radar-campus').value,
+        carrera: document.getElementById('radar-carrera').value,
+        certificado: document.getElementById('radar-certificado').value
+    };
+    
+    buscarNuevaConexion(miCampusActual, filtros);
 });
 
 // Enviar Mensajes
