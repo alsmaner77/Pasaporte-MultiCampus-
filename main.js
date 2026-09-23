@@ -9,7 +9,8 @@ import { completeChallenge, sincronizarRetosUsuario, filterMissions } from './re
 import { 
     cargarBandejaEntrada, abrirSalaDeChat, enviarMensajeTexto, 
     procesarYEnviarFoto, iniciarVideollamada, buscarNuevaConexion, 
-    actualizarMapaYSellos, currentChatId 
+    actualizarMapaYSellos, currentChatId,
+    abrirModalGrupo, crearGrupoIntercampus
 } from './chat.js';
 import { abrirCamaraWeb, cerrarCamaraWeb, capturarFotoWebcam } from './ia-vision.js';
 
@@ -207,10 +208,13 @@ const chatCameraInput = document.getElementById('chat-camera-input');
 
 document.getElementById('btn-attach-img').addEventListener('click', () => chatImgInput.click());
 document.getElementById('btn-take-photo').addEventListener('click', () => {
-    if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
-        chatCameraInput.click();
+    // Detección estricta para forzar la cámara del sistema operativo móvil
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia("(max-width: 768px)").matches;
+    
+    if (isMobile) {
+        chatCameraInput.click(); // Abre la app de la cámara del celular
     } else {
-        abrirCamaraWeb();
+        abrirCamaraWeb(); // Abre el modal de la computadora
     }
 });
 
@@ -246,3 +250,12 @@ document.getElementById('upload-pic').addEventListener('change', async (e) => {
         reader.readAsDataURL(file);
     }
 });
+
+// Listeners Modal Escuadrones
+document.getElementById('btn-open-group-modal').addEventListener('click', abrirModalGrupo);
+
+document.getElementById('btn-cancel-group').addEventListener('click', () => {
+    document.getElementById('group-modal').style.display = 'none';
+});
+
+document.getElementById('btn-confirm-group').addEventListener('click', crearGrupoIntercampus);
