@@ -319,24 +319,24 @@ export async function procesarYEnviarFoto(base64Original) {
 }
 
 // ==========================================
-// 5. VIDEOLLAMADAS JITSI
+// 5. VIDEOLLAMADAS JITSI (SERVIDOR ABIERTO)
 // ==========================================
 export async function iniciarVideollamada() {
     if (!currentChatId || !auth.currentUser) return;
 
-    // Generar nombre de sala y eliminar caracteres especiales para Jitsi
+    // Generar nombre de sala único
     const roomName = "Pasaporte" + currentChatId.replace(/[^a-zA-Z0-9]/g, "");
     
-    // Parámetros para forzar entrada directa sin lobby ni pedir nombres
-    const jitsiConfigs = "#config.prejoinPageEnabled=false&config.disableDeepLinking=true&config.requireDisplayName=false";
-    const jitsiUrl = `https://meet.jit.si/${roomName}${jitsiConfigs}`;
+    // Usamos el servidor público abierto 'meet.ffmuc.net' para evitar el bloqueo de anfitrión
+    // y forzamos la entrada directa sin sala de espera.
+    const jitsiUrl = `https://meet.ffmuc.net/${roomName}#config.prejoinPageEnabled=false`;
 
     window.open(jitsiUrl, '_blank');
 
     try {
         const msgRef = collection(db, "chats", currentChatId, "mensajes");
         await addDoc(msgRef, {
-            texto: `📹 ¡He abierto una sala síncrona! Da clic arriba para unirte.`,
+            texto: `📹 ¡He abierto una sala síncrona! Da clic arriba para unirte sin contraseñas.`,
             senderId: auth.currentUser.uid,
             senderEmail: auth.currentUser.email,
             timestamp: serverTimestamp()
