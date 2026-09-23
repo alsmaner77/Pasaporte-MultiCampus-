@@ -148,3 +148,10 @@
         padding: 15px;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .punto-campus {
+        width: 8px;        /* Reduce el tamaño a la mitad */
+        height: 8px;       
+        border-width: 1px; /* Adelgaza el borde para que no consuma todo el punto */
+    }
