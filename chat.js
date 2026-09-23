@@ -3,8 +3,9 @@ import {
     collection, doc, setDoc, addDoc, getDoc, getDocs, updateDoc, 
     query, where, orderBy, onSnapshot, serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { completeChallenge } from './retos.js';
+import { completeChallenge, insigniasMapa } from './retos.js';
 import { comprimirImagen, detectarComidaConIA, abrirCamaraWeb, capturarFotoWebcam } from './ia-vision.js';
+
 
 export let currentChatId = null;
 let unsubscribeChat = null;
@@ -550,5 +551,144 @@ export async function crearGrupoIntercampus() {
         const btnConfirm = document.getElementById('btn-confirm-group');
         btnConfirm.disabled = false;
         btnConfirm.textContent = "Crear Grupo";
+    }
+}
+
+// ==========================================
+// 8. RED DE CONTACTOS Y PERFILES EXTERNOS
+// ==========================================
+export async function cargarMisConexiones() {
+    if (!auth.currentUser) return;
+    const myUid = auth.currentUser.uid;
+    const grid = document.getElementById('contactos-grid');
+    if (!grid) return;
+    
+    try {
+        const chatsRef = collection(db, "chats");
+        const q = query(chatsRef, where("participantes", "array-contains", myUid));
+        const snap = await getDocs(q);
+        
+        let contactosUids = new Set();
+        snap.forEach(docSnap => {
+            const data = docSnap.data();
+            if(data.participantes) {
+                data.participantes.forEach(uid => {
+                    if (uid !== myUid) contactosUids.add(uid);
+                });
+            }
+        });
+
+        grid.innerHTML = '';
+        if (contactosUids.size === 0) {
+            grid.innerHTML = '<p class="empty-state" style="grid-column: 1 / -1;">Aún no tienes conexiones. ¡Usa el Radar!</p>';
+            return;
+        }
+
+        for (let uid of contactosUids) {
+            const userSnap = await getDoc(doc(db, "usuarios", uid));
+            if (userSnap.exists()) {
+                const uData = userSnap.data();
+                const card = document.createElement('div');
+                card.style.cssText = "background: #fff; border: 1px solid var(--border-subtle); padding: 15px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s;";
+                card.onmouseover = () => card.style.borderColor = "var(--tec-green-primary)";
+                card.onmouseout = () => card.style.borderColor = "var(--border-subtle)";
+                
+                const pic = (uData.foto_perfil && uData.foto_perfil.startsWith('data:image')) 
+                    ? uData.foto_perfil 
+                    : "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><rect width='50' height='50' fill='%23004D3C'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='20'>🎓</text></svg>";
+                
+                card.innerHTML = `
+                    <img src="${pic}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--tec-green-light);">
+                    <div style="overflow: hidden;">
+                        <h4 style="margin: 0; font-size: 14px; color: var(--text-primary); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${uData.correo.split('@')[0]}</h4>
+                        <p style="margin: 2px 0 0; font-size: 11px; color: var(--text-secondary);">${uData.campus}</p>
+                    </div>
+                `;
+                card.onclick = () => verPerfilExterno(uid, uData);
+                grid.appendChild(card);
+            }
+        }
+    } catch (e) {
+        console.error("Error cargando conexiones:", e);
+    }
+}
+
+async function verPerfilExterno(uid, uData) {
+    document.getElementById('contactos-list-view').style.display = 'none';
+    document.getElementById('contacto-profile-view').style.display = 'block';
+
+    document.getElementById('ext-profile-email').textContent = uData.correo;
+    document.getElementById('ext-profile-campus').textContent = `Campus: ${uData.campus}`;
+    document.getElementById('ext-profile-certificado').textContent = uData.certificado || 'Certificado General';
+    document.getElementById('ext-profile-pic').src = (uData.foto_perfil && uData.foto_perfil.startsWith('data:image')) 
+        ? uData.foto_perfil 
+        : "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect width='100%' height='100%' fill='%23eee'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='12'>Sin Foto</text></svg>";
+
+    // Insignias del compañero
+    const badgesContainer = document.getElementById('ext-passport-badges');
+    badgesContainer.innerHTML = '<p class="empty-state">Sin insignias aún.</p>';
+    let tieneInsignias = false;
+
+    if (uData.retos_completados) {
+        for (const [retoId, completado] of Object.entries(uData.retos_completados)) {
+            if (completado) {
+                const badgeName = insigniasMapa[retoId];
+                const badgeOriginal = document.getElementById(`badge-${badgeName}`);
+                if (badgeOriginal) {
+                    if (!tieneInsignias) { badgesContainer.innerHTML = ''; tieneInsignias = true; }
+                    const clon = badgeOriginal.cloneNode(true);
+                    clon.id = ""; // Quitar id para evitar duplicados
+                    clon.classList.remove("locked");
+                    clon.classList.add("unlocked");
+                    badgesContainer.appendChild(clon);
+                }
+            }
+        }
+    }
+
+    // Sellos generados por las interacciones del compañero
+    const stampsContainer = document.getElementById('ext-passport-stamps');
+    stampsContainer.innerHTML = '<p class="empty-state">Sin sellos aún.</p>';
+    try {
+        const chatsRef = collection(db, "chats");
+        const q = query(chatsRef, where("participantes", "array-contains", uid));
+        const snap = await getDocs(q);
+
+        let externalPartners = new Set();
+        snap.forEach(d => {
+            (d.data().participantes || []).forEach(p => {
+                if (p !== uid) externalPartners.add(p);
+            });
+        });
+
+        let conteoCampus = {};
+        for (const pUid of externalPartners) {
+            const pSnap = await getDoc(doc(db, "usuarios", pUid));
+            if (pSnap.exists()) {
+                const c = pSnap.data().campus;
+                if (c) conteoCampus[c] = (conteoCampus[c] || 0) + 1;
+            }
+        }
+
+        const campuses = Object.keys(conteoCampus);
+        if (campuses.length > 0) {
+            stampsContainer.innerHTML = '';
+            const tintas = ['red', 'blue', 'green'];
+            const fecha = new Date().toLocaleDateString();
+
+            campuses.forEach((campus, idx) => {
+                const rotacion = Math.floor(Math.random() * 40) - 20;
+                const stamp = document.createElement("div");
+                stamp.className = `sello-campus ${tintas[idx % tintas.length]}`;
+                stamp.style.transform = `rotate(${rotacion}deg)`;
+                stamp.innerHTML = `
+                    <span class="sello-nombre">${campus}</span>
+                    <span class="sello-fecha">${fecha}</span>
+                `;
+                stampsContainer.appendChild(stamp);
+            });
+        }
+    } catch (e) {
+        console.error("Error obteniendo sellos externos:", e);
     }
 }
