@@ -13,14 +13,14 @@ let unsubscribeInbox = null;
 // ==========================================
 // 1. RADAR DE EMPAREJAMIENTO MULTICAMPUS
 // ==========================================
-export async function buscarNuevaConexion(miCampus) {
+export async function buscarNuevaConexion(miCampus, filtros = {}) {
     if (!auth.currentUser) return;
 
     const btnFind = document.getElementById('btn-find-partner');
     const searchStatus = document.getElementById('search-status');
 
     searchStatus.style.display = 'block';
-    searchStatus.textContent = "Sintonizando frecuencias intercampus...";
+    searchStatus.textContent = "Sintonizando frecuencias intercampus con tus filtros...";
     btnFind.disabled = true;
 
     try {
@@ -31,33 +31,51 @@ export async function buscarNuevaConexion(miCampus) {
         const misChatsQ = query(chatsRef, where("participantes", "array-contains", myUid));
         const misChatsSnap = await getDocs(misChatsQ);
 
-        let yaConectados = [myUid];
+        let yaConectados = [myUid]; // Incluirme a mí mismo para no seleccionarme
         misChatsSnap.forEach(snap => {
             const parts = snap.data().participantes || [];
             parts.forEach(p => { if (p !== myUid) yaConectados.push(p); });
         });
 
-        // 2. Buscar estudiantes de OTRO campus
+        // 2. Traer estudiantes y filtrarlos localmente (evita errores de índices en Firebase)
         const usuariosRef = collection(db, "usuarios");
-        const q = query(usuariosRef, where("campus", "!=", miCampus || ""));
-        const snapshot = await getDocs(q);
+        const snapshot = await getDocs(usuariosRef);
 
         let disponibles = [];
         snapshot.forEach(docSnap => {
-            if (!yaConectados.includes(docSnap.id)) {
-                disponibles.push({ id: docSnap.id, ...docSnap.data() });
+            const uid = docSnap.id;
+            const uData = docSnap.data();
+
+            // Si ya he hablado con esta persona, saltarla
+            if (yaConectados.includes(uid)) return;
+
+            // Filtro Campus: Si el usuario seleccionó "Todos", evitamos emparejar con el mismo campus por defecto.
+            if (filtros.campus && filtros.campus !== "Todos") {
+                if (uData.campus !== filtros.campus) return;
+            } else {
+                if (uData.campus === miCampus) return;
             }
+
+            // Filtro Carrera
+            if (filtros.carrera && filtros.carrera !== "Todas" && uData.carrera !== filtros.carrera) return;
+
+            // Filtro Certificado
+            if (filtros.certificado && filtros.certificado !== "Todos" && uData.certificado !== filtros.certificado) return;
+
+            disponibles.push({ id: uid, ...uData });
         });
 
         if (disponibles.length === 0) {
-            searchStatus.textContent = "¡Has conectado con todos los campus disponibles! Invita a más compañeros.";
+            searchStatus.textContent = "No encontramos a nadie disponible con esos filtros. ¡Intenta cambiarlos!";
             btnFind.disabled = false;
             return;
         }
 
-        // 3. Selección aleatoria
+        // 3. Selección aleatoria entre los disponibles
         const partner = disponibles[Math.floor(Math.random() * disponibles.length)];
         const partnerUid = partner.id;
+        
+        // Crear un ID único de chat ordenando los UIDs alfabéticamente
         const chatId = myUid < partnerUid ? `${myUid}_${partnerUid}` : `${partnerUid}_${myUid}`;
 
         // Crear documento del chat
