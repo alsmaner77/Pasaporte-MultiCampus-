@@ -253,11 +253,46 @@ body {
 
 .empty-state { text-align: center; color: #9ca3af; font-size: 13px; font-style: italic; width: 100%; padding: 30px 0; }
 
-.badge { width: 70px; height: 70px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #f3f4f6 0%, #e5e7eb 100%); border: 3px solid #d1d5db; text-align: center; filter: grayscale(100%); opacity: 0.6; }
-.badge.unlocked { filter: grayscale(0%); opacity: 1; background: radial-gradient(circle, #fef3c7 0%, #fde68a 100%); border-color: var(--tec-gold); }
-.badge .icon { font-size: 22px; }
-.badge p { margin: 0; font-size: 8px; font-weight: 700; color: #92400e; text-transform: uppercase; }
+.badge { 
+    width: 85px; /* Aumentamos ligeramente el tamaño base */
+    height: 85px; 
+    border-radius: 50%; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    background: radial-gradient(circle, #f3f4f6 0%, #e5e7eb 100%); 
+    border: 3px solid #d1d5db; 
+    text-align: center; 
+    filter: grayscale(100%); 
+    opacity: 0.6; 
+    padding: 8px; /* Mantiene el texto alejado de los bordes */
+    box-sizing: border-box; /* Asegura que el padding no rompa la forma circular */
+}
 
+.badge.unlocked { 
+    filter: grayscale(0%); 
+    opacity: 1; 
+    background: radial-gradient(circle, #fef3c7 0%, #fde68a 100%); 
+    border-color: var(--tec-gold); 
+}
+
+.badge .icon { 
+    font-size: 22px; 
+}
+
+.badge p { 
+    margin: 4px 0 0 0; /* Pequeño margen superior para separar del icono */
+    font-size: 8px; 
+    font-weight: 700; 
+    color: #92400e; 
+    text-transform: uppercase; 
+    line-height: 1.1; /* Interlineado más junto para que quepan dos líneas */
+    width: 100%; 
+    word-wrap: break-word; /* Obliga a romper palabras largas si exceden el ancho */
+    overflow-wrap: break-word; 
+    hyphens: auto; /* Permite el uso de guiones ortográficos si el navegador lo soporta */
+}
 /* --- NUEVOS ESTILOS DE SELLOS --- */
 
 .sello-campus { 
