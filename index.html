@@ -226,6 +226,9 @@
                         <li class="nav-item" onclick="openTab(event, 'perfil')">
                             <div class="nav-item-left"><span>🛂</span> Mi Pasaporte</div>
                         </li>
+                        <li class="nav-item" onclick="openTab(event, 'contactos')">
+                            <div class="nav-item-left"><span>👥</span> Mis Conexiones</div>
+                        </li>
                     </ul>
                 </div>
                 <div class="sidebar-progress-widget">
@@ -668,6 +671,51 @@
                         </div>
                         <div style="text-align: center; margin-top: 30px;">
                             <button id="btn-logout" class="btn-logout">Cerrar Sesión Segura 🔒</button>
+                        </div>
+                    </section>
+
+                                        <!-- TAB 6: CONEXIONES -->
+                    <section id="contactos" class="tab-content" style="display: none;">
+                        <!-- Vista 1: Lista de Contactos -->
+                        <div id="contactos-list-view">
+                            <div class="section-toolbar">
+                                <div class="section-title">
+                                    <h3>Mis Conexiones</h3>
+                                    <span>Compañeros con los que has colaborado</span>
+                                </div>
+                            </div>
+                            <div id="contactos-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
+                                <!-- Las tarjetas se inyectarán aquí -->
+                            </div>
+                        </div>
+                    
+                        <!-- Vista 2: Perfil Externo (Idéntico a la imagen) -->
+                        <div id="contacto-profile-view" style="display: none;">
+                            <button id="btn-back-contactos" class="btn-sso" style="width: auto; margin-bottom: 20px;">⬅ Regresar a Conexiones</button>
+                            <div class="profile-card">
+                                <div class="avatar-wrapper">
+                                    <img id="ext-profile-pic" src="">
+                                </div>
+                                <div class="profile-details">
+                                    <h3 id="ext-profile-email" style="font-size: 20px; color: var(--tec-green-dark); margin-bottom: 5px;">Cargando...</h3>
+                                    <p id="ext-profile-campus" class="badge-tag">Campus: Cargando...</p>
+                                    <p id="ext-profile-certificado" class="badge-tag" style="background: var(--tec-gold-bg); color: var(--tec-gold-dark);">Certificado</p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 30px; margin-bottom: 12px;" class="section-title">
+                                <h3>Libreta Oficial de Pasaporte</h3>
+                                <span>Tus evidencias de colaboración nacional</span>
+                            </div>
+                            <div class="passport-book">
+                                <div class="passport-page left-page">
+                                    <div class="page-header">INSIGNIAS OBTENIDAS</div>
+                                    <div id="ext-passport-badges" class="passport-grid"></div>
+                                </div>
+                                <div class="passport-page right-page">
+                                    <div class="page-header">SELLOS INTERCAMPUS</div>
+                                    <div id="ext-passport-stamps" class="stamps-grid"></div>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
