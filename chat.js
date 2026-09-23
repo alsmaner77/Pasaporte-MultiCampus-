@@ -176,13 +176,18 @@ export function abrirSalaDeChat(chatId, partner) {
     const roomView = document.getElementById('chat-room-view');
     roomView.style.display = 'flex';
 
-    document.getElementById('chat-partner-email').textContent = partner.correo;
-    document.getElementById('chat-partner-campus').textContent = partner.campus;
+    // Identificar si es un grupo (Escuadrón)
+    const esGrupo = partner.correo.includes("👥");
+
+    document.getElementById('chat-partner-email').textContent = esGrupo ? partner.correo.replace("👥 ", "") : partner.correo;
+    document.getElementById('chat-partner-campus').textContent = esGrupo ? "Chat de Escuadrón" : partner.campus;
 
     const chatPic = document.getElementById('chat-partner-pic');
     chatPic.src = (partner.foto_perfil && partner.foto_perfil.startsWith('data:image'))
         ? partner.foto_perfil
-        : "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='%23004D3C'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='16'>🎓</text></svg>";
+        : (esGrupo 
+            ? "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><rect width='44' height='44' fill='%2300765C'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18'>👥</text></svg>"
+            : "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='%23004D3C'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='16'>🎓</text></svg>");
 
     const container = document.getElementById('chat-messages');
     container.innerHTML = '';
@@ -215,45 +220,57 @@ export function abrirSalaDeChat(chatId, partner) {
             `;
 
             let header = (!esMio && msg.senderEmail) 
-                ? `<div style="font-size:10px; font-weight:700; color:var(--tec-green-light); margin-bottom:3px;">${msg.senderEmail}</div>` 
+                ? `<div style="font-size:10px; font-weight:700; color:var(--tec-green-light); margin-bottom:3px;">${msg.senderEmail.split('@')[0]}</div>` 
                 : '';
 
             let content = msg.texto || '';
             if (msg.imagenUrl) {
-                content = `<img src="${msg.imagenUrl}" style="max-width: 220px; border-radius: 8px; margin-top: 5px; display: block;">`;
+                // Corrección del Scroll obligando al contenedor a bajar cuando la imagen termina de cargar
+                content = `<img src="${msg.imagenUrl}" style="max-width: 220px; border-radius: 8px; margin-top: 5px; display: block;" onload="document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight">`;
             }
 
             bubble.innerHTML = header + content;
             container.appendChild(bubble);
         });
 
-        container.scrollTop = container.scrollHeight;
+        // Asegurar scroll suave
+        container.scrollTo({
+            top: container.scrollHeight,
+            behavior: 'smooth'
+        });
     });
 }
-
 // Enviar Mensaje de Texto
 export async function enviarMensajeTexto() {
     const input = document.getElementById('chat-input');
+    const btnSend = document.getElementById('btn-send-message');
     const texto = input.value.trim();
+    
     if (!texto || !currentChatId || !auth.currentUser) return;
 
+    if (btnSend) btnSend.disabled = true; // Prevenir doble envío
+    const textoGuardado = texto;
     input.value = '';
 
     try {
         const msgRef = collection(db, "chats", currentChatId, "mensajes");
         await addDoc(msgRef, {
-            texto,
+            texto: textoGuardado,
             senderId: auth.currentUser.uid,
             senderEmail: auth.currentUser.email,
             timestamp: serverTimestamp()
         });
 
         await updateDoc(doc(db, "chats", currentChatId), {
-            ultimo_mensaje: texto,
+            ultimo_mensaje: textoGuardado,
             fecha_actualizacion: serverTimestamp()
         });
     } catch (e) {
         console.error("Error enviando mensaje:", e);
+        alert("No se pudo enviar el mensaje. Revisa tu conexión.");
+    } finally {
+        if (btnSend) btnSend.disabled = false; // Reactivar botón
+        input.focus();
     }
 }
 
@@ -307,8 +324,12 @@ export async function procesarYEnviarFoto(base64Original) {
 export async function iniciarVideollamada() {
     if (!currentChatId || !auth.currentUser) return;
 
+    // Generar nombre de sala y eliminar caracteres especiales para Jitsi
     const roomName = "Pasaporte" + currentChatId.replace(/[^a-zA-Z0-9]/g, "");
-    const jitsiUrl = `https://meet.jit.si/${roomName}`;
+    
+    // Parámetros para forzar entrada directa sin lobby ni pedir nombres
+    const jitsiConfigs = "#config.prejoinPageEnabled=false&config.disableDeepLinking=true&config.requireDisplayName=false";
+    const jitsiUrl = `https://meet.jit.si/${roomName}${jitsiConfigs}`;
 
     window.open(jitsiUrl, '_blank');
 
