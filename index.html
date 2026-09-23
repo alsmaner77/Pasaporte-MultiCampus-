@@ -58,7 +58,7 @@
                                 <polyline points="2 12 12 17 22 12"></polyline>
                             </svg>
                         </div>
-                        <span class="nexus-brand-text">PASAPORTE MULTICAMPUS</span>
+                        <span class="nexus-brand-text">PASAPORTE MULTICAMPUS TECMILENIO</span>
                     </div>
 
                     <div class="maps-online-badge">
@@ -157,11 +157,20 @@
                         <select id="carrera-select" class="auth-input" style="padding-left: 14px;">
                             <option value="" disabled selected>Selecciona tu Carrera</option>
                             <option value="Ingeniería en Desarrollo de Software">Ingeniería en Desarrollo de Software</option>
+                            <option value="Ingeniería en Logística y Cadena de Suministro">Ingeniería en Logística y Cadena de Suministro</option>
+                            <option value="Ingeniería en Mecatrónica">Ingeniería en Mecatrónica</option>
                             <option value="Ingeniería Industrial">Ingeniería Industrial</option>
-                            <option value="Licenciatura en Mercadotecnia">Licenciatura en Mercadotecnia</option>
                             <option value="Licenciatura en Administración de Empresas">Licenciatura en Administración de Empresas</option>
+                            <option value="Licenciatura en Comercio y Negocios Internacionales">Licenciatura en Comercio y Negocios Internacionales</option>
+                            <option value="Licenciatura en Contabilidad y Estrategia Financiera">Licenciatura en Contabilidad y Estrategia Financiera</option>
+                            <option value="Licenciatura en Creación y Desarrollo de Empresas">Licenciatura en Creación y Desarrollo de Empresas</option>
+                            <option value="Licenciatura en Derecho">Licenciatura en Derecho</option>
+                            <option value="Licenciatura en Diseño Gráfico y Animación">Licenciatura en Diseño Gráfico y Animación</option>
+                            <option value="Licenciatura en Enfermería">Licenciatura en Enfermería</option>
+                            <option value="Licenciatura en Gastronomía Internacional">Licenciatura en Gastronomía Internacional</option>
+                            <option value="Licenciatura en Mercadotecnia">Licenciatura en Mercadotecnia</option>
+                            <option value="Licenciatura en Nutrición">Licenciatura en Nutrición</option>
                             <option value="Licenciatura en Psicología">Licenciatura en Psicología</option>
-                            <option value="Licenciatura en Comercio y Negocios">Licenciatura en Comercio y Negocios</option>
                         </select>
                     </div>
                     <div class="auth-form-group">
@@ -218,10 +227,10 @@
                             <span class="nav-badge-pill">Nuevo</span>
                         </li>
                         <li class="nav-item" onclick="openTab(event, 'mapa')">
-                            <div class="nav-item-left"><span>🗺️</span> Ecosistema</div>
+                            <div class="nav-item-left"><span>🗺️</span> Mapa de Conexiones</div>
                         </li>
                         <li class="nav-item" onclick="openTab(event, 'mensajes')">
-                            <div class="nav-item-left"><span>💬</span> Hub Escuadrones</div>
+                            <div class="nav-item-left"><span>💬</span> Chats y Grupos</div>
                         </li>
                         <li class="nav-item" onclick="openTab(event, 'contactos')">
                             <div class="nav-item-left"><span>👥</span> Mis Conexiones</div>
@@ -233,7 +242,7 @@
                 </div>
                 <div class="sidebar-progress-widget">
                     <div class="sidebar-progress-header">
-                        <span>Avance Certificado</span>
+                        <span>Avance de la Ruta</span>
                         <span id="sidebar-progress-text">0%</span>
                     </div>
                     <div class="sidebar-progress-bar">
@@ -271,16 +280,12 @@
 <div class="hero-stats">
     <div class="hero-stat-box">
         <div class="hero-stat-number" id="kpi-sellos">0</div>
-        <div class="hero-stat-label">Sello obtenido</div>
+        <div class="hero-stat-label">Insignias obtenidas</div>
     </div>
     <div class="hero-stat-box">
         <div class="hero-stat-number" id="kpi-progreso">0%</div>
         <div class="hero-stat-label">Progreso</div>
-    </div>
-    <div class="hero-stat-box">
-        <div class="hero-stat-number" id="kpi-ranking">#12</div>
-        <div class="hero-stat-label">Ranking</div>
-    </div>
+    </div>    
 </div>
                     </div>
 
@@ -306,7 +311,7 @@
                                 </div>
                                 <span class="mission-week">Semana 1</span>
                                 <div><span class="tag-badge horizontal">Horizontal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(1, 'México conectado', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(1, 'México conectado', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="mission-row" id="reto-2" data-type="horizontal">
                                 <span class="mission-icon">📹</span>
@@ -316,27 +321,27 @@
                                 </div>
                                 <span class="mission-week">Semana 2</span>
                                 <div><span class="tag-badge horizontal">Horizontal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(2, 'Conexión real', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(2, 'Conexión real', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="mission-row" id="reto-3" data-type="transversal">
                                 <span class="mission-icon">🍜</span>
                                 <div class="mission-details">
-                                    <h4>Intercambio Cultural (Validación IA)</h4>
-                                    <p>Envía en el chat una foto de un platillo típico; la IA la clasificará en automático.</p>
+                                    <h4>Intercambio Cultural</h4>
+                                    <p>Usa la cultura local como punto de conexión enviando en el chat una foto de tu comida típica o platillo familiar favorito.</p>
                                 </div>
                                 <span class="mission-week">Semana 3</span>
                                 <div><span class="tag-badge transversal">Transversal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(3, 'Explorador gastronómico', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(3, 'Explorador gastronómico', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="mission-row" id="reto-4" data-type="horizontal">
                                 <span class="mission-icon">🤝</span>
                                 <div class="mission-details">
-                                    <h4>Armar Escuadrón Colaborativo</h4>
+                                    <h4>Armar Grupo Colaborativo</h4>
                                     <p>Crea un chat grupal con estudiantes de al menos 2 campus diferentes.</p>
                                 </div>
                                 <span class="mission-week">Semana 4</span>
                                 <div><span class="tag-badge horizontal">Horizontal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(4, 'Equipo Sin Fronteras', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(4, 'Equipo Sin Fronteras', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="mission-row" id="reto-5" data-type="transversal">
                                 <span class="mission-icon">🧩</span>
@@ -346,27 +351,27 @@
                                 </div>
                                 <span class="mission-week">Semana 5</span>
                                 <div><span class="tag-badge transversal">Transversal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(5, 'Sin fronteras', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(5, 'Sin fronteras', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="mission-row" id="reto-6" data-type="horizontal">
                                 <span class="mission-icon">📚</span>
                                 <div class="mission-details">
-                                    <h4>Intercambio de Apuntes y Recursos</h4>
+                                    <h4>Intercambio Colaborativo</h4>
                                     <p>Sube o comparte un archivo útil en tu escuadrón para preparar la entrega.</p>
                                 </div>
                                 <span class="mission-week">Semana 6</span>
                                 <div><span class="tag-badge horizontal">Horizontal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(6, 'Colaborador', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(6, 'Colaborador', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="mission-row" id="reto-7" data-type="transversal">
                                 <span class="mission-icon">💡</span>
                                 <div class="mission-details">
-                                    <h4>Propuesta Cruzada Integrada</h4>
+                                    <h4>Propuesta Cruzada</h4>
                                     <p>Genera una propuesta conjunta que fusione conocimientos de ambos certificados.</p>
                                 </div>
                                 <span class="mission-week">Semana 7</span>
                                 <div><span class="tag-badge transversal">Transversal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(7, 'Estratega', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(7, 'Estratega', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="mission-row" id="reto-8" data-type="horizontal">
                                 <span class="mission-icon">🏆</span>
@@ -376,7 +381,7 @@
                                 </div>
                                 <span class="mission-week">Semana 8</span>
                                 <div><span class="tag-badge horizontal">Horizontal</span></div>
-                                <div><button class="btn-stamp" onclick="completeChallenge(8, 'Explorador Nacional', 12.5)">Registrar Sello</button></div>
+                                <div><button class="btn-stamp" onclick="completeChallenge(8, 'Explorador Nacional', 12.5)">Registrar Insignia</button></div>
                             </div>
                             <div class="locked-footer-msg"><span>🔒</span> Ruta diseñada para las 8 semanas del certificado.</div>
                         </div>
@@ -426,11 +431,20 @@
             <select id="radar-carrera" class="auth-input" style="width: auto; flex: 1; min-width: 180px;">
                 <option value="Todas">Todas las Carreras</option>
                 <option value="Ingeniería en Desarrollo de Software">Ingeniería en Desarrollo de Software</option>
+                <option value="Ingeniería en Logística y Cadena de Suministro">Ingeniería en Logística y Cadena de Suministro</option>
+                <option value="Ingeniería en Mecatrónica">Ingeniería en Mecatrónica</option>
                 <option value="Ingeniería Industrial">Ingeniería Industrial</option>
-                <option value="Licenciatura en Mercadotecnia">Licenciatura en Mercadotecnia</option>
                 <option value="Licenciatura en Administración de Empresas">Licenciatura en Administración de Empresas</option>
+                <option value="Licenciatura en Comercio y Negocios Internacionales">Licenciatura en Comercio y Negocios Internacionales</option>
+                <option value="Licenciatura en Contabilidad y Estrategia Financiera">Licenciatura en Contabilidad y Estrategia Financiera</option>
+                <option value="Licenciatura en Creación y Desarrollo de Empresas">Licenciatura en Creación y Desarrollo de Empresas</option>
+                <option value="Licenciatura en Derecho">Licenciatura en Derecho</option>
+                <option value="Licenciatura en Diseño Gráfico y Animación">Licenciatura en Diseño Gráfico y Animación</option>
+                <option value="Licenciatura en Enfermería">Licenciatura en Enfermería</option>
+                <option value="Licenciatura en Gastronomía Internacional">Licenciatura en Gastronomía Internacional</option>
+                <option value="Licenciatura en Mercadotecnia">Licenciatura en Mercadotecnia</option>
+                <option value="Licenciatura en Nutrición">Licenciatura en Nutrición</option>
                 <option value="Licenciatura en Psicología">Licenciatura en Psicología</option>
-                <option value="Licenciatura en Comercio y Negocios">Licenciatura en Comercio y Negocios</option>
             </select>
 
             <select id="radar-certificado" class="auth-input" style="width: auto; flex: 1; min-width: 180px;">
@@ -453,7 +467,7 @@
 <section id="mapa" class="tab-content" style="display: none;">
     <div class="section-toolbar">
         <div class="section-title">
-            <h3>Red Nacional Conectada</h3>
+            <h3>Red de Campus</h3>
             <span>Ecosistema de cobertura e intercambio estudiantil entre sedes</span>
         </div>
         <span class="tag-badge horizontal" style="font-size: 12px; padding: 6px 14px;">
@@ -593,14 +607,14 @@
                     <section id="mensajes" class="tab-content" style="display: none;">
                         <div class="chat-header">
                             <div class="section-title">
-                                <h3>Chats y Escuadrones</h3>
+                                <h3>Chats y Grupos</h3>
                                 <span>Salas activas y videollamadas con otros campus</span>
                             </div>
-                            <button id="btn-open-group-modal" class="btn-auth-primary" style="width: auto; padding: 10px 18px; margin-top:0;">➕ Crear Escuadrón</button>
+                            <button id="btn-open-group-modal" class="btn-auth-primary" style="width: auto; padding: 10px 18px; margin-top:0;">➕ Crear Grupo</button>
                         </div>
                         <div id="group-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2500; align-items: center; justify-content: center;">
                             <div style="background: #ffffff; padding: 25px; border-radius: var(--radius-lg); width: 90%; max-width: 420px;">
-                                <h3 style="margin-bottom: 12px; color: var(--tec-green-dark);">Armar Escuadrón Intercampus</h3>
+                                <h3 style="margin-bottom: 12px; color: var(--tec-green-dark);">Armar Grupo Intercampus</h3>
                                 <input type="text" id="group-name" class="auth-input" placeholder="Nombre (ej. Escuadrón MAPS)" style="margin-bottom: 15px;">
                                 <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">Selecciona conexiones a invitar:</p>
                                 <div id="group-connections-list" style="max-height: 180px; overflow-y: auto; border: 1px solid var(--border-subtle); padding: 10px; border-radius: 8px; margin-bottom: 15px;"></div>
@@ -659,7 +673,7 @@
                             <div class="passport-page left-page">
                                 <div class="page-header">INSIGNIAS OBTENIDAS</div>
                                 <div id="passport-badges-grid" class="passport-grid">
-                                    <p id="no-badges-msg" class="empty-state">Insignias pendientes.</p>
+                                    <p id="no-badges-msg" class="empty-state">Aún no hay insignias.</p>
                                 </div>
                             </div>
                             <div class="passport-page right-page">
@@ -670,7 +684,7 @@
                             </div>
                         </div>
                         <div style="text-align: center; margin-top: 30px;">
-                            <button id="btn-logout" class="btn-logout">Cerrar Sesión Segura 🔒</button>
+                            <button id="btn-logout" class="btn-logout">Cerrar Sesión</button>
                         </div>
                     </section>
 
