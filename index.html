@@ -378,20 +378,71 @@
                         </div>
                     </section>
 
-                    <!-- TAB 2: RADAR -->
-                    <section id="conexion" class="tab-content" style="display: none;">
-                        <div class="section-title" style="margin-bottom: 20px;">
-                            <h3>Radar de Talentos</h3>
-                            <span>Emparejamiento inteligente con alumnos de otras sedes</span>
-                        </div>
-                        <div style="background: #ffffff; padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center; max-width: 650px; margin: 0 auto;">
-                            <div style="font-size: 48px; margin-bottom: 15px;">📡</div>
-                            <h3 style="color: var(--tec-green-dark); margin-bottom: 10px;">Sintonizador Multicampus</h3>
-                            <p style="color: var(--text-secondary); margin-bottom: 25px; font-size: 14px;">El sistema buscará a un estudiante en otro campus con el que aún no hayas colaborado para abrir una sala segura.</p>
-                            <button id="btn-find-partner" class="btn-auth-primary" style="width: auto; margin: 0 auto; padding: 14px 28px;"><span>🔍 Buscar Nueva Conexión</span></button>
-                            <p id="search-status" style="display: none; color: var(--tec-green-primary); margin-top: 20px; font-weight: 700;"></p>
-                        </div>
-                    </section>
+                   <!-- TAB 2: RADAR -->
+<section id="conexion" class="tab-content" style="display: none;">
+    <div class="section-title" style="margin-bottom: 20px;">
+        <h3>Radar de Talentos</h3>
+        <span>Emparejamiento inteligente con alumnos de otras sedes</span>
+    </div>
+    
+    <div style="background: #ffffff; padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); text-align: center; max-width: 750px; margin: 0 auto;">
+        <div style="font-size: 48px; margin-bottom: 15px;">📡</div>
+        <h3 style="color: var(--tec-green-dark); margin-bottom: 10px;">Sintonizador Multicampus</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 25px; font-size: 14px;">Define tus criterios y el sistema buscará a un estudiante con el que aún no hayas colaborado para abrir una sala segura.</p>
+        
+        <!-- FILTROS DEL RADAR -->
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px;">
+            <select id="radar-campus" class="auth-input" style="width: auto; flex: 1; min-width: 180px;">
+                <option value="Todos">Todos los Campus</option>
+                <option value="Aguascalientes">Aguascalientes</option>
+                <option value="Chihuahua">Chihuahua</option>
+                <option value="Ciudad Juárez">Ciudad Juárez</option>
+                <option value="Cuautitlán Izcalli">Cuautitlán Izcalli</option>
+                <option value="Cuernavaca">Cuernavaca</option>
+                <option value="Culiacán">Culiacán</option>
+                <option value="Cumbres">Cumbres</option>
+                <option value="Ferrería">Ferrería</option>
+                <option value="Guadalajara">Guadalajara</option>
+                <option value="Guadalupe">Guadalupe</option>
+                <option value="Las Torres">Las Torres</option>
+                <option value="Mazatlán">Mazatlán</option>
+                <option value="Monterrey">Monterrey</option>
+                <option value="Morelia">Morelia</option>
+                <option value="Puebla">Puebla</option>
+                <option value="Querétaro">Querétaro</option>
+                <option value="Reynosa">Reynosa</option>
+                <option value="San Luis Potosí">San Luis Potosí</option>
+                <option value="San Nicolás">San Nicolás</option>
+                <option value="Toluca">Toluca</option>
+                <option value="Veracruz">Veracruz</option>
+                <option value="Villahermosa">Villahermosa</option>
+                <option value="Zapopan">Zapopan</option>
+            </select>
+
+            <select id="radar-carrera" class="auth-input" style="width: auto; flex: 1; min-width: 180px;">
+                <option value="Todas">Todas las Carreras</option>
+                <option value="Ingeniería en Desarrollo de Software">Ingeniería en Desarrollo de Software</option>
+                <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                <option value="Licenciatura en Mercadotecnia">Licenciatura en Mercadotecnia</option>
+                <option value="Licenciatura en Administración de Empresas">Licenciatura en Administración de Empresas</option>
+                <option value="Licenciatura en Psicología">Licenciatura en Psicología</option>
+                <option value="Licenciatura en Comercio y Negocios">Licenciatura en Comercio y Negocios</option>
+            </select>
+
+            <select id="radar-certificado" class="auth-input" style="width: auto; flex: 1; min-width: 180px;">
+                <option value="Todos">Todos los Certificados</option>
+                <option value="Ciencia de Datos">Ciencia de Datos y Analítica</option>
+                <option value="Liderazgo Positivo">Liderazgo Positivo y Organizacional</option>
+                <option value="Marketing Estratégico">Marketing Estratégico y Growth</option>
+                <option value="Desarrollo de Software">Desarrollo de Software Cloud</option>
+                <option value="Innovación de Negocios">Innovación y Modelos de Negocio</option>
+            </select>
+        </div>
+
+        <button id="btn-find-partner" class="btn-auth-primary" style="width: auto; margin: 0 auto; padding: 14px 28px;"><span>🔍 Buscar Nueva Conexión</span></button>
+        <p id="search-status" style="display: none; color: var(--tec-green-primary); margin-top: 20px; font-weight: 700;"></p>
+    </div>
+</section>
 
                     <!-- TAB 3: MAPA -->
                     <!-- TAB 3: ECOSISTEMA (MAPA NACIONAL VECTORIAL) -->
