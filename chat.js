@@ -427,3 +427,110 @@ export async function actualizarMapaYSellos() {
         console.error("Error actualizando mapa/sellos:", e);
     }
 }
+
+// ==========================================
+// 7. ESCUADRONES (GRUPOS)
+// ==========================================
+export async function abrirModalGrupo() {
+    const modal = document.getElementById('group-modal');
+    const list = document.getElementById('group-connections-list');
+    list.innerHTML = '<p style="text-align:center; font-size:13px; padding:10px;">Cargando conexiones...</p>';
+    modal.style.display = 'flex';
+
+    if (!auth.currentUser) return;
+    const myUid = auth.currentUser.uid;
+    
+    try {
+        // Extraer todos los contactos únicos de los chats actuales (individuales y grupos previos)
+        const chatsRef = collection(db, "chats");
+        const q = query(chatsRef, where("participantes", "array-contains", myUid));
+        const snap = await getDocs(q);
+        
+        let contactosUids = new Set();
+        snap.forEach(docSnap => {
+            const data = docSnap.data();
+            data.participantes.forEach(uid => {
+                if (uid !== myUid) contactosUids.add(uid); // El Set asegura que no se dupliquen ni desaparezcan
+            });
+        });
+
+        list.innerHTML = '';
+        if (contactosUids.size === 0) {
+            list.innerHTML = '<p style="font-size:12px; color:var(--text-secondary); text-align:center;">No tienes conexiones aún. Usa el Radar para conectar con alguien primero.</p>';
+            return;
+        }
+
+        // Renderizar los contactos disponibles como checkboxes
+        for (let uid of contactosUids) {
+            const userSnap = await getDoc(doc(db, "usuarios", uid));
+            if (userSnap.exists()) {
+                const uData = userSnap.data();
+                const div = document.createElement('div');
+                div.style.cssText = "display: flex; align-items: center; gap: 10px; margin-bottom: 10px; background: var(--bg-surface-subtle); padding: 8px; border-radius: 6px; border: 1px solid var(--border-subtle);";
+                div.innerHTML = `
+                    <input type="checkbox" id="chk-${uid}" value="${uid}" class="group-checkbox" style="width: 16px; height: 16px; accent-color: var(--tec-green-primary);">
+                    <label for="chk-${uid}" style="font-size: 13px; cursor: pointer; flex: 1;">
+                        <b>${uData.correo.split('@')[0]}</b> <span style="color:var(--text-muted); font-size:11px;">(${uData.campus})</span>
+                    </label>
+                `;
+                list.appendChild(div);
+            }
+        }
+    } catch (e) {
+        console.error("Error al cargar contactos:", e);
+        list.innerHTML = '<p style="font-size:12px; color:red;">Error al cargar las conexiones.</p>';
+    }
+}
+
+export async function crearGrupoIntercampus() {
+    const nameInput = document.getElementById('group-name').value.trim();
+    if (!nameInput) {
+        alert("Por favor, dale un nombre a tu escuadrón.");
+        return;
+    }
+
+    const checkboxes = document.querySelectorAll('.group-checkbox:checked');
+    if (checkboxes.length === 0) {
+        alert("Selecciona al menos 1 conexión para formar el escuadrón.");
+        return;
+    }
+
+    const myUid = auth.currentUser.uid;
+    let participantes = [myUid];
+    checkboxes.forEach(chk => participantes.push(chk.value));
+
+    try {
+        const btnConfirm = document.getElementById('btn-confirm-group');
+        btnConfirm.disabled = true;
+        btnConfirm.textContent = "Creando...";
+
+        const groupId = "grupo_" + Date.now();
+        
+        await setDoc(doc(db, "chats", groupId), {
+            isGroup: true,
+            groupName: nameInput,
+            participantes: participantes,
+            ultimo_mensaje: "¡Escuadrón formado con éxito!",
+            fecha_actualizacion: serverTimestamp(),
+            adminId: myUid
+        });
+
+        // Validar en automático el Reto 4 (Armar Escuadrón)
+        const myUserSnap = await getDoc(doc(db, "usuarios", myUid));
+        if (myUserSnap.exists() && (!myUserSnap.data().retos_completados || !myUserSnap.data().retos_completados[4])) {
+            await completeChallenge(4, "Equipo Sin Fronteras", 12.5);
+        }
+
+        // Cerrar modal y resetear campos
+        document.getElementById('group-modal').style.display = 'none';
+        document.getElementById('group-name').value = '';
+        
+    } catch (e) {
+        console.error("Error al crear grupo:", e);
+        alert("Hubo un problema al crear el escuadrón.");
+    } finally {
+        const btnConfirm = document.getElementById('btn-confirm-group');
+        btnConfirm.disabled = false;
+        btnConfirm.textContent = "Crear Grupo";
+    }
+}
