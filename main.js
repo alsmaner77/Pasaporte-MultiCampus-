@@ -10,7 +10,8 @@ import {
     cargarBandejaEntrada, abrirSalaDeChat, enviarMensajeTexto, 
     procesarYEnviarFoto, iniciarVideollamada, buscarNuevaConexion, 
     actualizarMapaYSellos, currentChatId,
-    abrirModalGrupo, crearGrupoIntercampus
+    abrirModalGrupo, crearGrupoIntercampus,
+    cargarMisConexiones
 } from './chat.js';
 import { abrirCamaraWeb, cerrarCamaraWeb, capturarFotoWebcam } from './ia-vision.js';
 
@@ -47,10 +48,11 @@ window.openTab = function(evt, tabName) {
             conexion: "Radar de Talentos",
             mapa: "Ecosistema Nacional",
             mensajes: "Hub de Escuadrones",
-            perfil: "Mi Pasaporte"
+            perfil: "Mi Pasaporte",
+            contactos: "Mis Conexiones"
         };
         breadcrumb.textContent = titulos[tabName] || "Dashboard";
-    }
+    }    
 };
 
 // ==========================================
@@ -171,6 +173,7 @@ onAuthStateChanged(auth, async (user) => {
             sincronizarRetosUsuario(data);
             cargarBandejaEntrada();
             actualizarMapaYSellos();
+            cargarMisConexiones();
         }
     } else {
         loginScreen.style.display = 'flex';
@@ -265,3 +268,9 @@ document.getElementById('btn-cancel-group').addEventListener('click', () => {
 });
 
 document.getElementById('btn-confirm-group').addEventListener('click', crearGrupoIntercampus);
+
+// Regresar al listado general de Conexiones
+document.getElementById('btn-back-contactos').addEventListener('click', () => {
+    document.getElementById('contacto-profile-view').style.display = 'none';
+    document.getElementById('contactos-list-view').style.display = 'block';
+});
