@@ -250,8 +250,13 @@
             <!-- Main Viewport -->
             <div class="main-viewport">
                 <header class="topbar">
-                    <div class="topbar-breadcrumb">
-                        Dashboard / <b id="current-view-title">Ruta de 8 Semanas</b>
+                   <div style="display: flex; align-items: center; gap: 12px;">
+                    <!-- Botón Hamburguesa (Oculto en PC, visible en móviles) -->
+                        <button id="mobile-menu-btn" style="display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tec-green-dark); padding: 0;">☰</button>
+                        
+                        <div class="topbar-breadcrumb">
+                            Dashboard / <b id="current-view-title">Ruta de 8 Semanas</b>
+                        </div>
                     </div>
                     <div class="topbar-right">
                         <span class="topbar-badge-edition">EDICIÓN 2026</span>
