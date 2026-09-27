@@ -46,8 +46,8 @@ window.openTab = function(evt, tabName) {
         const titulos = {
             retos: "Ruta de 8 Semanas",
             conexion: "Radar de Talentos",
-            mapa: "Ecosistema Nacional",
-            mensajes: "Hub de Escuadrones",
+            mapa: "Mapa de Conexiones",
+            mensajes: "Chat y Grupos",
             perfil: "Mi Pasaporte",
             contactos: "Mis Conexiones"
         };
