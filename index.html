@@ -776,12 +776,18 @@
                                 <h3 id="profile-email">Cargando usuario...</h3>
                                 <p id="profile-campus" class="badge-tag">Campus: Cargando...</p>
                                 <p id="profile-certificado" class="badge-tag" style="background: var(--tec-gold-bg); color: var(--tec-gold-dark);">Certificado</p>
-                                <!-- Área para editar la descripción -->
-                                <div style="margin-top: 15px; width: 100%; max-width: 500px;">
+                               <!-- MODO LECTURA: Diseño estático (Foto 1) -->
+                                <div id="bio-view-mode" style="margin-top: 15px; max-width: 500px; display: block;">
+                                    <p id="profile-bio-display" style="font-size: 13px; color: var(--text-secondary); background: var(--bg-surface-subtle); padding: 12px; border-radius: 8px; border: 1px dashed var(--border-subtle); font-style: italic; word-wrap: break-word; overflow-wrap: break-word;">Cargando descripción...</p>
+                                    <button id="btn-edit-bio" style="background: none; border: none; color: var(--tec-green-primary); font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 8px; padding: 0;">✏️ Editar descripción</button>
+                                </div>
+                                
+                                <!-- MODO EDICIÓN: Caja de texto y botones ocultos por defecto (Foto 2) -->
+                                <div id="bio-edit-mode" style="margin-top: 15px; width: 100%; max-width: 500px; display: none;">
                                     <textarea id="profile-bio-input" placeholder="Escribe una breve descripción sobre ti, tus intereses o qué tipo de proyectos buscas..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle); resize: vertical; min-height: 70px; font-family: inherit; font-size: 13px; color: var(--text-primary);"></textarea>
-                                    <div style="display: flex; align-items: center; margin-top: 8px;">
-                                        <button id="btn-save-bio" class="btn-auth-primary" style="padding: 8px 16px; font-size: 12px; width: auto; margin-top: 0;">Guardar Descripción</button>
-                                        <span id="bio-status" style="font-size: 12px; color: var(--tec-green-primary); margin-left: 10px; font-weight: 600; display: none;">¡Actualizada! ✓</span>
+                                    <div style="display: flex; align-items: center; margin-top: 8px; gap: 10px;">
+                                        <button id="btn-save-bio" class="btn-auth-primary" style="padding: 8px 16px; font-size: 12px; width: auto; margin-top: 0;">Guardar</button>
+                                        <button id="btn-cancel-bio" class="btn-sso" style="padding: 8px 16px; font-size: 12px; width: auto; margin-top: 0;">Cancelar</button>
                                     </div>
                                 </div>
                             </div>
