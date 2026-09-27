@@ -776,6 +776,14 @@
                                 <h3 id="profile-email">Cargando usuario...</h3>
                                 <p id="profile-campus" class="badge-tag">Campus: Cargando...</p>
                                 <p id="profile-certificado" class="badge-tag" style="background: var(--tec-gold-bg); color: var(--tec-gold-dark);">Certificado</p>
+                                <!-- Área para editar la descripción -->
+                                <div style="margin-top: 15px; width: 100%; max-width: 500px;">
+                                    <textarea id="profile-bio-input" placeholder="Escribe una breve descripción sobre ti, tus intereses o qué tipo de proyectos buscas..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle); resize: vertical; min-height: 70px; font-family: inherit; font-size: 13px; color: var(--text-primary);"></textarea>
+                                    <div style="display: flex; align-items: center; margin-top: 8px;">
+                                        <button id="btn-save-bio" class="btn-auth-primary" style="padding: 8px 16px; font-size: 12px; width: auto; margin-top: 0;">Guardar Descripción</button>
+                                        <span id="bio-status" style="font-size: 12px; color: var(--tec-green-primary); margin-left: 10px; font-weight: 600; display: none;">¡Actualizada! ✓</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div style="margin-top: 30px; margin-bottom: 12px;" class="section-title">
@@ -826,7 +834,8 @@
                                 <div class="profile-details">
                                     <h3 id="ext-profile-email" style="font-size: 20px; color: var(--tec-green-dark); margin-bottom: 5px;">Cargando...</h3>
                                     <p id="ext-profile-campus" class="badge-tag">Campus: Cargando...</p>
-                                    <p id="ext-profile-certificado" class="badge-tag" style="background: var(--tec-gold-bg); color: var(--tec-gold-dark);">Certificado</p>
+                                    <p id="ext-profile-certificado" class="badge-tag" style="background: var(--tec-gold-bg); color: var(--tec-gold-dark);">Certificado</p>                                    
+                                    <p id="ext-profile-bio" style="margin-top: 15px; font-size: 13px; color: var(--text-secondary); background: var(--bg-surface-subtle); padding: 12px; border-radius: 8px; border: 1px dashed var(--border-subtle); max-width: 500px; font-style: italic;">Cargando descripción...</p>
                                 </div>
                             </div>
                             <div style="margin-top: 30px; margin-bottom: 12px;" class="section-title">
