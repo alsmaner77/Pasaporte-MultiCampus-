@@ -157,7 +157,8 @@ onAuthStateChanged(auth, async (user) => {
             // Actualizar datos de Perfil
             document.getElementById('profile-email').textContent = data.correo || user.email;
             document.getElementById('profile-campus').textContent = `Campus: ${data.campus || 'Sin definir'}`;
-            document.getElementById('profile-certificado').textContent = data.certificado || 'Certificado General';
+            document.getElementById('profile-certificado').textContent = data.certificado || 'Certificado General';        
+            document.getElementById('profile-bio-input').value = data.descripcion || "";
 
             // Actualizar Topbar
             document.getElementById('topbar-user-name').textContent = (data.correo || user.email).split('@')[0];
@@ -296,3 +297,31 @@ if (menuBtn && sidebar) {
         });
     });
 }
+
+// Guardar descripción del perfil
+document.getElementById('btn-save-bio').addEventListener('click', async () => {
+    const bioInput = document.getElementById('profile-bio-input').value.trim();
+    const btnSave = document.getElementById('btn-save-bio');
+    const statusMsg = document.getElementById('bio-status');
+
+    if (!auth.currentUser) return;
+
+    btnSave.disabled = true;
+    btnSave.textContent = "Guardando...";
+
+    try {
+        const userRef = doc(db, "usuarios", auth.currentUser.uid);
+        await updateDoc(userRef, { descripcion: bioInput });
+
+        // Confirmación visual
+        btnSave.textContent = "Guardar Descripción";
+        statusMsg.style.display = "inline";
+        setTimeout(() => { statusMsg.style.display = "none"; }, 3000);
+    } catch (error) {
+        console.error("Error actualizando descripción:", error);
+        alert("No se pudo guardar la descripción. Revisa tu conexión.");
+        btnSave.textContent = "Guardar Descripción";
+    } finally {
+        btnSave.disabled = false;
+    }
+});
