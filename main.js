@@ -158,7 +158,15 @@ onAuthStateChanged(auth, async (user) => {
             document.getElementById('profile-email').textContent = data.correo || user.email;
             document.getElementById('profile-campus').textContent = `Campus: ${data.campus || 'Sin definir'}`;
             document.getElementById('profile-certificado').textContent = data.certificado || 'Certificado General';        
-            document.getElementById('profile-bio-input').value = data.descripcion || "";
+            // Cargar la descripción guardada en ambos modos
+            const desc = data.descripcion || "";
+            document.getElementById('profile-bio-input').value = desc;
+            
+            const displayBio = document.getElementById('profile-bio-display');
+            if (displayBio) {
+                displayBio.textContent = desc ? `"${desc}"` : "Aún no tienes una descripción. ¡Agrega una!";
+                displayBio.style.fontStyle = desc ? "italic" : "normal";
+            }
 
             // Actualizar Topbar
             document.getElementById('topbar-user-name').textContent = (data.correo || user.email).split('@')[0];
@@ -298,11 +306,28 @@ if (menuBtn && sidebar) {
     });
 }
 
-// Guardar descripción del perfil
+// ==========================================
+// CONTROL DE DESCRIPCIÓN (MODO LECTURA / EDICIÓN)
+// ==========================================
+const bioViewMode = document.getElementById('bio-view-mode');
+const bioEditMode = document.getElementById('bio-edit-mode');
+
+// Botón: Abrir editor
+document.getElementById('btn-edit-bio').addEventListener('click', () => {
+    bioViewMode.style.display = 'none';
+    bioEditMode.style.display = 'block';
+});
+
+// Botón: Cancelar edición
+document.getElementById('btn-cancel-bio').addEventListener('click', () => {
+    bioEditMode.style.display = 'none';
+    bioViewMode.style.display = 'block';
+});
+
+// Botón: Guardar en Firebase
 document.getElementById('btn-save-bio').addEventListener('click', async () => {
     const bioInput = document.getElementById('profile-bio-input').value.trim();
     const btnSave = document.getElementById('btn-save-bio');
-    const statusMsg = document.getElementById('bio-status');
 
     if (!auth.currentUser) return;
 
@@ -313,15 +338,19 @@ document.getElementById('btn-save-bio').addEventListener('click', async () => {
         const userRef = doc(db, "usuarios", auth.currentUser.uid);
         await updateDoc(userRef, { descripcion: bioInput });
 
-        // Confirmación visual
-        btnSave.textContent = "Guardar Descripción";
-        statusMsg.style.display = "inline";
-        setTimeout(() => { statusMsg.style.display = "none"; }, 3000);
+        // Actualizar la vista estática (Modo lectura)
+        const displayBio = document.getElementById('profile-bio-display');
+        displayBio.textContent = bioInput ? `"${bioInput}"` : "Aún no tienes una descripción. ¡Agrega una!";
+        displayBio.style.fontStyle = bioInput ? "italic" : "normal";
+
+        // Regresar al modo lectura
+        bioEditMode.style.display = 'none';
+        bioViewMode.style.display = 'block';
     } catch (error) {
         console.error("Error actualizando descripción:", error);
         alert("No se pudo guardar la descripción. Revisa tu conexión.");
-        btnSave.textContent = "Guardar Descripción";
     } finally {
+        btnSave.textContent = "Guardar";
         btnSave.disabled = false;
     }
 });
