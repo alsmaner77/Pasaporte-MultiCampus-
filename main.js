@@ -274,3 +274,25 @@ document.getElementById('btn-back-contactos').addEventListener('click', () => {
     document.getElementById('contacto-profile-view').style.display = 'none';
     document.getElementById('contactos-list-view').style.display = 'block';
 });
+
+// ==========================================
+// CONTROL DEL MENÚ MÓVIL (SIDEBAR)
+// ==========================================
+const menuBtn = document.getElementById('mobile-menu-btn');
+const sidebar = document.querySelector('.sidebar');
+
+if (menuBtn && sidebar) {
+    // Al dar clic en la hamburguesa, abre o cierra el menú
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-open');
+    });
+
+    // Al seleccionar una pestaña del menú, escóndelo automáticamente
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('sidebar-open');
+            }
+        });
+    });
+}
