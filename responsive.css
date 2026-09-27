@@ -13,54 +13,67 @@
     }
     .main-title { font-size: 36px; }
 
-    /* 2. MINI-BARRA LATERAL (ESTILO FOTO 2 COMPACTO) */
+    /* 2. MENÚ DESPLEGABLE OCULTO (OFF-CANVAS) */
     .dashboard-layout {
-        flex-direction: row; /* Mantiene la barra a la izquierda */
+        flex-direction: column; 
     }
+    
+    #mobile-menu-btn {
+        display: block !important; /* Muestra el botón hamburguesa */
+    }
+
     .sidebar {
-        width: 70px; /* Reduce el ancho al mínimo */
-        padding: 15px 5px;
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
+        width: 270px; /* Ancho completo del menú original */
         height: 100vh;
-        align-items: center;
-        border-right: 1px solid var(--border-subtle);
+        background: var(--bg-sidebar);
+        z-index: 4000;
+        transform: translateX(-100%); /* Esconde la barra a la izquierda */
+        transition: transform 0.3s ease-in-out; /* Animación de entrada/salida */
+        box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+        padding: 24px 16px;
+        border-right: none;
+        align-items: flex-start; /* Reseteo de alineación */
     }
+    
+    /* Clase para abrir el menú con JavaScript */
+    .sidebar.sidebar-open {
+        transform: translateX(0); 
+    }
+
+    /* Restaurar textos y elementos que habíamos ocultado en la versión mini */
     .sidebar-logo {
-        padding-bottom: 15px;
-        margin-bottom: 15px;
-        border: none;
-        justify-content: center;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-subtle);
     }
     .sidebar-logo div:nth-child(2) {
-        display: none; /* Oculta el texto del logo "Pasaporte Multicampus" */
-    }
-    .sidebar-logo-icon {
-        margin: 0; /* Centra el logo */
+        display: block; /* Muestra el texto del logo de nuevo */
     }
     .sidebar-progress-widget {
-        display: none; /* Oculta la barra de progreso lateral por falta de espacio */
+        display: block; /* Muestra la barra de progreso */
     }
     .nav-item {
-        justify-content: center;
-        padding: 15px 0;
+        justify-content: space-between;
+        padding: 12px 14px;
     }
     .nav-item-left {
-        font-size: 0; /* TRUCO: Oculta el texto del menú */
-        justify-content: center;
-        width: 100%;
+        font-size: 13.5px; /* Restaura el texto del menú */
+        justify-content: flex-start;
     }
     .nav-item-left span {
-        font-size: 24px; /* Hace el emoji más grande */
-        margin: 0;
+        font-size: 16px; /* Tamaño normal del emoji */
     }
     .nav-badge-pill {
-        display: none; /* Oculta la etiqueta "Nuevo" */
+        display: inline-block; /* Muestra la etiqueta "Nuevo" */
     }
 
     /* 3. TOPBAR (BARRA SUPERIOR) */
     .topbar {
-        padding: 10px 15px;
+        padding: 15px;
     }
     .topbar-search, .topbar-badge-edition {
         display: none; /* Oculta buscador y badge para ahorrar espacio */
@@ -91,12 +104,12 @@
         font-size: 22px;
     }
 
-    /* 5. RADAR DE TALENTOS (FOTO 2) */
+    /* 5. RADAR DE TALENTOS */
     #conexion > div {
-        padding: 20px !important; /* Reduce el relleno interno de la tarjeta blanca */
+        padding: 20px !important; 
     }
     #conexion select {
-        min-width: 100% !important; /* Apila los filtros uno debajo del otro */
+        min-width: 100% !important; 
         margin-bottom: 5px;
     }
 
@@ -149,9 +162,11 @@
     }
 }
 
+/* 8. PUNTOS DEL MAPA */
 @media screen and (max-width: 768px) {
     .punto-campus {
-        width: 6px;        /* Reduce el tamaño a la mitad */
+        width: 6px;        
         height: 6px;       
-        border-width: 1px; /* Adelgaza el borde para que no consuma todo el punto */
+        border-width: 1px; 
     }
+}
