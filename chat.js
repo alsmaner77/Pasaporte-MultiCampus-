@@ -624,6 +624,18 @@ async function verPerfilExterno(uid, uData) {
         ? uData.foto_perfil 
         : "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect width='100%' height='100%' fill='%23eee'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='12'>Sin Foto</text></svg>";
 
+        // ---> PEGA EL CÓDIGO NUEVO AQUÍ <---
+    const extBio = document.getElementById('ext-profile-bio');
+    if (uData.descripcion) {
+        extBio.textContent = `"${uData.descripcion}"`;
+        extBio.style.fontStyle = "italic";
+        extBio.style.color = "var(--text-primary)";
+    } else {
+        extBio.textContent = "Este estudiante aún no ha agregado una descripción a su perfil.";
+        extBio.style.fontStyle = "normal";
+        extBio.style.color = "var(--text-secondary)";
+    }
+
     // Insignias del compañero
     const badgesContainer = document.getElementById('ext-passport-badges');
     badgesContainer.innerHTML = '<p class="empty-state">Sin insignias aún.</p>';
